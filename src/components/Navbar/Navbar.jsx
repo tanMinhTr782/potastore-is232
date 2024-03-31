@@ -1,16 +1,27 @@
 import React from 'react'
-import SearchIcon from '@mui/icons-material/Search';
-import './Navbar.css';
+import "./Navbar.css"
+import {ShoppingCartOutlined, 
+        SearchOutlined, 
+        CameraAlt, 
+        KeyboardArrowDown,
+        ArrowRightAlt 
+    } from '@mui/icons-material';
 
 const Navbar = () => {
     return (
-        <div className='container'>
-            <div className = 'logo'>
-                Potastore
-            </div>
-              <SearchIcon />
+        <div className= 'navbar'>
+            <div className='wrapper'>
+        <div className = 'left'>
+            <img src = '/logo.png' />
+        </div>
+        <div className = 'center'></div>
+        <SearchOutlined/>
+        <div className = 'right'>
+            <ShoppingCartOutlined/>
+        </div>
+
+        </div>
         </div>
     )
 }
-
 export default Navbar; 
