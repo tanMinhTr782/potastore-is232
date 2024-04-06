@@ -3,3 +3,31 @@
     margin-right: 45px; 
     margin-top: 16px; 
 }
+.left {
+    display: flex; 
+    width: fit-content; 
+}
+.right {
+    width: fit-content; 
+}
+.center {
+    width: fit-content; 
+}
+.button {
+    width: 60px; 
+    height: 58px;
+    background-color: #23A6F0;
+    border: none; 
+    border-right: 1px solid white; 
+}
+.searchContainer {
+    width: 541px;
+    height: 58px;
+    border: 1px solid #E6E6E6; 
+}
+.cartButton {
+    width: 60px; 
+    height: 58px;
+    background-color: transparent;
+    border: none; 
+}
