@@ -1,0 +1,14 @@
+.containerCategory {
+    width: 301px;
+    height: 269px;
+    gap: 10px; 
+    color: white; 
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.centered {
+    font-weight: bold;
+    font-size: 16;
+}

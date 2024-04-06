@@ -26,22 +26,40 @@
     margin-bottom: auto;
 }
 .section {
-    font-size: 18px;
     gap: 25px;
     display: flex;
     padding-top: 10px; 
 }
+.link {
+    font-size: 18px;
+    color: inherit; 
+    text-decoration: inherit;
+}
 .button {
     width: 60px; 
-    height: 61px;
+    height: 62px;
     background-color: #23A6F0;
     border: none; 
     border-right: 1px solid white; 
+
+}
+.searchWrapper {
+    display: flex;
+    justify-content: center;
 }
 .searchContainer {
-    width: 541px;
+    width: 696px;
     height: 58px;
     border: 1px solid #E6E6E6; 
+    padding-inline: 26px; 
+}
+
+.searchContainer:focus::placeholder {
+    opacity: 0;
+}
+.searchContainer:focus {
+    outline: none; 
+    border: 1px solid #778899; 
 }
 .cartBtn {
     width: 60px; 
@@ -71,8 +89,9 @@
 .signinBtn .cartCount {
     font-size: 14px; 
 }
-.arrow, .cart {
+.arrow, .cart, .searchContainer, .button {
     margin-top: auto;
     margin-bottom: auto;
 }
+ 
  

@@ -1,46 +1,47 @@
 import React from 'react'
-import "./Navbar.css"
+import styles from "./Navbar.module.css"
 import {
     ShoppingCartOutlined,
     SearchOutlined,
     CameraAlt,
-    KeyboardArrowDown,
-    ArrowRightAlt, 
     ArrowForward
 } from '@mui/icons-material';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 const Navbar = () => {
     return (
-        <div className='navbar'>
-            <div className='left'>
-                <div className = "item">
-                <Link to="/" className = 'logo'> <img src='/logo.png' /></Link>
-                </div> 
-                <div className="Search">
-                    <input className="searchContainer" placeholder="Search">
-                    </input>
-                    <button className = "button">
-                        <SearchOutlined style={{ color: 'white' }}  />
-                    </button>
-                    <button className = "button">
-                        <CameraAlt style={{ color: 'white' }} />
-                    </button>
-                    <div className='section'> 
-                        <Link to="/" className='link'> Customer Service </Link>
-                        <Link to="/" className='link'> About Us </Link>
+        <div className={styles.navbar}>
+            <div className={styles.left}>
+                <div className= {styles.item}>
+                    <Link to="/" className={styles.logo}> <img src='/logo.png' /></Link>
+                </div>
+                <div className={styles.Search}>
+                    <div className= {styles.searchWrapper}>
+                        <input className={styles.searchContainer} placeholder="Search">
+                        </input>
+
+                        <button className= {styles.button}>
+                            <SearchOutlined style={{ color: 'white' }} />
+                        </button>
+                        <button className= {styles.button}>
+                            <CameraAlt style={{ color: 'white' }} />
+                        </button>
+                    </div>
+                    <div className={styles.section}>
+                        <Link to="/" className= {styles.link}> Customer Service </Link>
+                        <Link to="/" className= {styles.link}> About Us </Link>
                     </div>
                 </div>
             </div>
 
 
-            <div className='right'>
-                <button className = "cartBtn">
-                <ShoppingCartOutlined className='cart'/>
-                <span className = "cartCount">0</span>
+            <div className={styles.right}>
+                <button className={styles.cartBtn}>
+                    <ShoppingCartOutlined className={styles.cart} />
+                    <span className={styles.cartCount}>0</span>
                 </button>
-                <button className = "signinBtn">
-                <span className = "cartCount">Sign in</span>
-                <ArrowForward className = "arrow"/>
+                <button className={styles.signinBtn}>
+                    <span className={styles.cartCount}>Sign in</span>
+                    <ArrowForward className={styles.arrow}/>
                 </button>
             </div>
         </div>
