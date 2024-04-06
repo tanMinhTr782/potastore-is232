@@ -10,7 +10,7 @@ import SearchByImage from './pages/SearchByImage/SearchByImage';
 import Navbar from './components/Navbar/Navbar';
 const Layout = () => {
   return (
-    <div className = "app">
+    <div className = "App">
       <Navbar/>
       <Outlet/>
     </div>
