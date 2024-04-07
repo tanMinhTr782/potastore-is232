@@ -36,3 +36,36 @@
     margin-top: auto; 
     margin-bottom: auto;
 }
+.filterBtn {
+    width: 129px;
+    height: 52px;
+    color: white; 
+    background-color: #23A6F0;
+    border: none; 
+    justify-content: center;
+    display: flex;
+    gap: 15px;
+    font-style: bold;
+}
+.filterBtn:hover {
+    cursor: pointer;
+    filter: brightness(85%);
+}
+.wordsOnButton {
+    margin-top: auto; 
+    margin-bottom: auto; 
+    font-size: 20px;
+    font-weight: bold;
+}
+.productCardList {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 100px; 
+    justify-content:space-between;
+    padding-left: 58px;
+    padding-right: 58px; 
+}
+.productContainer {
+    margin-left: 25px;
+    width: 90%; 
+}

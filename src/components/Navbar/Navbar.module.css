@@ -57,6 +57,9 @@
 .searchContainer:focus::placeholder {
     opacity: 0;
 }
+.searchContainer::placeholder {
+    font-size: 18px; 
+}
 .searchContainer:focus {
     outline: none; 
     border: 1px solid #778899; 
@@ -70,6 +73,10 @@
     justify-content: center;
     gap: 5px;
 }
+.signinBtn:hover, .button:hover, .cartBtn:hover {
+    filter: brightness(85%);
+    cursor: pointer;
+}
 .signinBtn {
     width: 129px;
     height: 52px;
@@ -80,11 +87,13 @@
     display: flex;
     gap: 15px;
     font-style: bold;
+    cursor: pointer;
 }
 .cartCount {
     margin-top: auto; 
     margin-bottom: auto; 
     font-size: 20px;
+    font-weight: bold;
 }
 .signinBtn .cartCount {
     font-size: 14px; 

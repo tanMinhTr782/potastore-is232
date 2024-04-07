@@ -7,8 +7,12 @@
     text-align: center;
     justify-content: center;
     flex-direction: column;
+    background-color:   linear-gradient(
+        rgba(0, 0, 0, 0.5), 
+        rgba(0, 0, 0, 0.5)
+      );
 }
 .centered {
     font-weight: bold;
-    font-size: 16;
+    font-size: 20px;
 }

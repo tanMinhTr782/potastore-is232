@@ -3,7 +3,7 @@ import { KeyboardArrowDown } from '@mui/icons-material';
 import { useState } from 'react';
 const Dropdown = ({options}) => {
   const [isActive, setIsActive] = useState(false);
-  const [selected, setSelected] = useState("All");
+  const [selected, setSelected] = useState(options[2]);
 
   return (
       <div className={styles.dropdown}>
