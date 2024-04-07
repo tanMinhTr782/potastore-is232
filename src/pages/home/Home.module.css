@@ -18,3 +18,21 @@
     gap: 25px; 
     width: 100%; 
 }
+.filter {
+    display: flex; 
+    flex-direction: row;
+    gap:10px; 
+    margin-left: 63px; 
+    margin-bottom: 48px; 
+}
+.productContainer {
+    margin-top: 64px; 
+    margin-left: 25px; 
+    margin-right: 25px; 
+}
+.filterTitle {
+    font-weight: bold;
+    color: #737373; 
+    margin-top: auto; 
+    margin-bottom: auto;
+}
