@@ -1,0 +1,19 @@
+.description, .releventItem{
+  padding: 0 60px 50px 60px;
+}
+
+.descriptionTitle {
+  border-bottom: 2px solid var(--border-color);
+}
+
+.title {
+  cursor: pointer;
+}
+.title:hover {
+  color: var(--secondary-color);
+}
+.title__selected {
+  color: var(--primary-color);
+  font-weight: bold;
+  border-bottom: 2px solid var(--primary-color);
+}
