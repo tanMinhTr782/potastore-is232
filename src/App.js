@@ -8,11 +8,13 @@ import Home from './pages/Home/Home';
 import Product from './pages/Product/Product'
 import SignIn from './pages/SignIn/SignIn';
 import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
 const Layout = () => {
   return (
     <div className = "App">
       <Navbar/>
       <Outlet/>
+      <Footer/>
     </div>
   )
 }
@@ -29,7 +31,7 @@ const router = createBrowserRouter([
         element: <SignIn/>
       },
       {
-        path: "/products/:id",
+        path: "/products",
         element: <Product/>, 
       },
     ]
