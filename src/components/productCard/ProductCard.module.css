@@ -1,0 +1,97 @@
+.container {
+    width: 348px; 
+    height: 588px;
+}
+.imgContainer {
+    width: 348px;
+    height: 300px; 
+}
+.imgProduct {
+    width:348px;
+    height: 300px;  
+    object-fit: cover;
+}
+.info {
+    margin-left: 25px; 
+    margin-right: 25px; 
+    margin-top: 25px; 
+}
+.titleAndRating {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.title {
+    font-weight: bold;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 16px;
+}
+.rating {
+    background-color: black;
+    border-radius: 20px; 
+    color: white; 
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    width: 50px; 
+}
+.rating span {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.star {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 15px; 
+    color: #FFCE31; 
+}
+.description {
+    color: #737373; 
+    margin-bottom: 10px ;
+    font-size: 14px;
+}
+.sales{
+    margin-bottom: 15px ;
+    color: #737373; 
+}
+.price {
+    color: #23856D; 
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px ;
+}
+.btnContainer {
+    width: 140px;
+    height: 44px;
+    color: #23A6F0; 
+    border: 1px solid #23A6F0; 
+    background-color: transparent;
+    justify-content: center;
+    display: flex;
+    gap: 5px;
+    font-style: bold;
+    border-radius: 37px;
+    cursor: pointer;
+
+}
+.btnContainer:hover {
+    background-color: black;
+    color: white; 
+    cursor: pointer;
+}
+.btnText {
+    margin-top: auto; 
+    margin-bottom: auto; 
+    font-size: 14px;
+    font-weight: bold;
+}
+.arrow, .cart{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.btnGroup {
+    display: flex; 
+    justify-content: space-between;
+    gap: 10px; 
+}
