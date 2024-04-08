@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Home from './pages/Home/Home'; 
 import Product from './pages/Product/Product'
-import SearchByImage from './pages/SearchByImage/SearchByImage';
+import SignIn from './pages/SignIn/SignIn';
 import Navbar from './components/Navbar/Navbar';
 const Layout = () => {
   return (
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
       element: <Home/>,  
       }, 
       {
-        path: "/products/:id",
-        element: <SearchByImage/>
+        path: "/SignIn",
+        element: <SignIn/>
       },
       {
         path: "/products/:id",

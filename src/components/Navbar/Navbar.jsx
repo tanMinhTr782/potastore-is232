@@ -6,13 +6,15 @@ import {
     CameraAlt,
     ArrowForward
 } from '@mui/icons-material';
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"; 
+import {Link} from 'react-router-dom';
 const Navbar = () => {
+    const navigate = useNavigate(); 
     return (
         <div className={styles.navbar}>
             <div className={styles.left}>
                 <div className= {styles.item}>
-                    <Link to="/" className={styles.logo}> <img src='/logo.png' /></Link>
+                    <Link to="/" className={styles.logo}> <img src='/logo.png' alt = "Potastore"/></Link>
                 </div>
                 <div className={styles.Search}>
                     <div className= {styles.searchWrapper}>
@@ -39,10 +41,11 @@ const Navbar = () => {
                     <ShoppingCartOutlined className={styles.cart} />
                     <span className={styles.cartCount}>0</span>
                 </button>
-                <button className={styles.signinBtn}>
+                <button className={styles.signinBtn}  onClick={() =>  { navigate('/SignIn') }}> 
                     <span className={styles.cartCount}>Sign in</span>
                     <ArrowForward className={styles.arrow}/>
                 </button>
+
             </div>
         </div>
     )
