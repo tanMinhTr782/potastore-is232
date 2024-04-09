@@ -27,16 +27,16 @@ const router = createBrowserRouter([
       element: <Home/>,  
       }, 
       {
-        path: "/SignIn",
-        element: <SignIn/>
-      },
-      {
         path: "/products",
         element: <Product/>, 
       },
     ]
   },
- 
+  {
+      path: "/SignIn",
+      element: <SignIn/>,
+      children: [] 
+  }
 ]);
 function App() {
   return <div>
