@@ -41,7 +41,7 @@ const Navbar = () => {
                     <ShoppingCartOutlined className={styles.cart} />
                     <span className={styles.cartCount}>0</span>
                 </button>
-                <button className={styles.signinBtn}  onClick={() =>  { navigate('/SignIn') }}> 
+                <button className={styles.signinBtn}  onClick={() =>  { navigate('/Register') }}> 
                     <span className={styles.cartCount}>Sign in</span>
                     <ArrowForward className={styles.arrow}/>
                 </button>
