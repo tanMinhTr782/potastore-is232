@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom"; 
 import {Link} from 'react-router-dom';
 const Navbar = () => {
+    const isAuthenticated = false; 
     const navigate = useNavigate(); 
     return (
         <div className={styles.navbar}>
@@ -41,7 +42,7 @@ const Navbar = () => {
                     <ShoppingCartOutlined className={styles.cart} />
                     <span className={styles.cartCount}>0</span>
                 </button>
-                <button className={styles.signinBtn}  onClick={() =>  { navigate('/Register') }}> 
+                <button className={styles.signinBtn}  onClick={() =>  { navigate('/SignIn') }}> 
                     <span className={styles.cartCount}>Sign in</span>
                     <ArrowForward className={styles.arrow}/>
                 </button>
