@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from "./Navbar.module.css"
 import {
     ShoppingCartOutlined,
     SearchOutlined,
     CameraAlt,
-    ArrowForward
+    ArrowForward,
+    AttachFile
 } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom"; 
 import {Link} from 'react-router-dom';
 const Navbar = () => {
+    const [upImageBox, setUpImageBox] = useState(false);
+    const isAuthenticated = false; 
     const navigate = useNavigate(); 
     return (
         <div className={styles.navbar}>
@@ -25,9 +28,16 @@ const Navbar = () => {
                             <SearchOutlined style={{ color: 'white' }} />
                         </button>
                         <button className= {styles.button}>
-                            <CameraAlt style={{ color: 'white' }} />
+                            <CameraAlt style={{ color: 'white' }} onClick = {() => {setUpImageBox(!upImageBox)}}/>
                         </button>
                     </div>
+                    {upImageBox && <div className={styles.upImageBox}>
+                    <div className = {styles.uploadTitle}>Search your product with Potastore AI</div>
+                    <div className = {styles.uploadZone}>
+                        <input type="file" className = {styles.uploadFile} placeholder='Drag an Image here or Upload a file' />
+                        </div>
+                        </div>
+                    }
                     <div className={styles.section}>
                         <Link to="/" className= {styles.link}> Customer Service </Link>
                         <Link to="/" className= {styles.link}> About Us </Link>
