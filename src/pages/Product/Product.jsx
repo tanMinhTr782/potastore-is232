@@ -4,36 +4,69 @@ import { ProductDetail } from "../../components/ProductDetail/ProductDetail";
 import { ProductDescription } from "../../components/ProductDescription/ProductDescription";
 import { ProductReview } from "../../components/ProductReview/ProductReview";
 import Stack from "@mui/material/Stack";
-import ProductCard from "../../components/productCard/ProductCard";
+import SimilarCard from "../../components/SimilarCard/SimilarCard";
 
 import "./Product.css";
-const products = [
+const releventItem = [
   {
-    name: "Mocchau Strawberry",
-    price: "6.48",
-    rating: "4.9",
-    description:
-      "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    imgUrl: "/img/MocchauStrawberry.jpg",
-    soldFigure: "14",
+    productId: "2",
+    productName: "Kiwi",
+    price: 675,
+    stock: 5,
+    likes: 4.5,
+    reviews: 121,
+    imgUrl:
+      "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
   },
   {
-    name: "Dalat Potato",
-    price: "5.99",
-    rating: "3.5",
-    description:
-      "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    imgUrl: "/img/potato.jpg",
-    soldFigure: "268",
+    productId: "3",
+    productName: "Kiwi",
+    price: 675,
+    stock: 5,
+    likes: 4.5,
+    reviews: 121,
+    imgUrl:
+      "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
   },
   {
-    name: "Pineapple",
-    price: "3.99",
-    rating: "5.0",
-    description:
-      "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    imgUrl: "/img/ppap.png",
-    soldFigure: "1957",
+    productId: "4",
+    productName: "Kiwi",
+    price: 675,
+    stock: 5,
+    likes: 4.5,
+    reviews: 121,
+    imgUrl:
+      "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
+  },
+  {
+    productId: "5",
+    productName: "Kiwi",
+    price: 675,
+    stock: 5,
+    likes: 4.5,
+    reviews: 121,
+    imgUrl:
+      "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
+  },
+  {
+    productId: "6",
+    productName: "Kiwi",
+    price: 675,
+    stock: 5,
+    likes: 4.5,
+    reviews: 121,
+    imgUrl:
+      "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
+  },
+  {
+    productId: "7",
+    productName: "Kiwi",
+    price: 675,
+    stock: 5,
+    likes: 4.5,
+    reviews: 121,
+    imgUrl:
+      "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
   },
 ];
 const Product = ({ productId }) => {
@@ -64,12 +97,20 @@ const Product = ({ productId }) => {
         )}
       </Stack>
       <Stack className="releventItem">
-        <div style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "20px" }}>
+        <div
+          style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "20px" }}
+        >
           Similar Items You Might Also Like
         </div>
-        <Stack direction="row">
-          {products.map((product) => (
-            <ProductCard {...product} />
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          useFlexGap
+          flexWrap="wrap"
+          sx={{ width: "100%" }}
+        >
+          {releventItem.map((item) => (
+            <SimilarCard props={item} />
           ))}
         </Stack>
       </Stack>
