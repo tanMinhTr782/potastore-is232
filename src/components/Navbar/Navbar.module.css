@@ -105,31 +105,6 @@
     margin-top: auto;
     margin-bottom: auto;
 }
-.uploadZone {
-    width: 673px;
-    height: 158px;
-    background-color: #F9F9F9;
-    border: 1px solid #E6E6E6;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-}
-.uploadFile {
-    margin-top: auto;
-    margin-bottom: auto;
-}
-.uploadTitle {
-    font-weight: bold;
-    font-size: 24px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.upImageBox {
-    display: flex;
-    width: fit-content;
-    justify-content: center;
-    flex-direction: column;
-}
 /* 
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup_form
 https://www.codemzy.com/blog/react-drag-drop-file-upload
