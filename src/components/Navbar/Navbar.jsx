@@ -12,7 +12,7 @@ import {Link} from 'react-router-dom';
 import UploadImageButton from '../UploadImageButton/UploadImageButton'
 
 const Navbar = () => {
-    const [upImageBox, setUpImageBox] = useState(false);
+    const [openSearchByImage, setOpenSearchByImage] = useState(false);
 
     // triggers when file is selected with click
 
@@ -33,10 +33,10 @@ const Navbar = () => {
                             <SearchOutlined style={{ color: 'white' }} />
                         </button>
                         <button className= {styles.button}>
-                            <CameraAlt style={{ color: 'white' }} onClick = {() => {setUpImageBox(!upImageBox)}}/>
+                            <CameraAlt style={{ color: 'white' }} onClick = {() => {setOpenSearchByImage(!openSearchByImage)}}/>
                         </button>
                     </div>
-                    {upImageBox && <UploadImageButton/>}
+                    {openSearchByImage && <UploadImageButton setOpen={setOpenSearchByImage}/>}
                     <div className={styles.section}>
                         <Link to="/" className= {styles.link}> Customer Service </Link>
                         <Link to="/" className= {styles.link}> About Us </Link>

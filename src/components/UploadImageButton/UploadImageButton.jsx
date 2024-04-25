@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import {
-  AttachFile
+  AttachFile, 
+  Close
 } from '@mui/icons-material';
 import styles from './UploadImageButton.module.css'
 function handleFiles(files) {
-  alert("Number of files: " + files.length);
+  alert(files[0].name);
+  console.log(files); 
 }
-const UploadImageButton = () => {
+const UploadImageButton = ({setOpen}) => {
   const [dragActive, setDragActive] = useState(false);
   const handleChange = function (e) {
     e.preventDefault();
@@ -39,10 +41,14 @@ const UploadImageButton = () => {
   };
   return (
     <form
-      id='file-upload'
+      className = {styles.upImageBox}
       onDragEnter={handleDrag}
       onSubmit={(e) => e.preventDefault()}
     >
+      <div className = {styles.upImageTitle}>
+        <p className={styles.uploadTitle}>Search your product with Potastore AI</p>
+        <button style = {{border: 'none', backgroundColor: 'transparent', cursor: 'pointer'}} onClick = {() => setOpen(false)}><Close /></button>
+      </div>
       <input
         type='file'
         id='input-file-upload'
@@ -53,7 +59,7 @@ const UploadImageButton = () => {
       <label
         id={styles.labelFileUpload}
         htmlFor='input-file-upload'
-        className={dragActive ? styles.labelFileUploadTriggered : ""}
+        style = {dragActive ?{ backgroundColor: '#737373', color: 'white' }: {backgroundColor: '#F9F9F9', color: 'black'}}
       >
         <div className={styles.uploadFile}>
           <p>
