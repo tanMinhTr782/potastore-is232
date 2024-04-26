@@ -1,0 +1,39 @@
+.checkoutPage {
+    padding: 20px 60px 100px 60px;
+}
+
+.backLink{
+    display: flex;
+    align-items: center;
+    color: #000;
+    text-decoration: none;
+}
+.orderSummary{
+    width: 30%;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    position: absolute;
+    top: 200px;
+    right: 60px;
+    z-index: 1001;
+}
+
+.orderSummaryTitle{
+    background-color: var(--background-gray-color);
+    padding: 10px 20px;
+}
+
+.orderForm{
+    z-index: 1000;
+}
+
+.confirmModal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background-color: #fff;
+    box-shadow: 24;
+
+}

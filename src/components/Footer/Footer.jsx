@@ -11,6 +11,16 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import "./Footer.css";
 
 const Footer = () => {
+  const hiddenRoutes = [
+    "/shop",
+    "/shop/orders",
+    "/shop/products",
+    "/shop/accounts",
+  ];
+  const hideNavbar = hiddenRoutes.includes(window.location.pathname);
+  if (hideNavbar) {
+    return null;
+  }
   return (
     <Stack className="Footer" gap={8}>
       <Stack direction="row" justifyContent="space-between">
