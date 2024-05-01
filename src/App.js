@@ -4,11 +4,15 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Home from './pages/Home/Home';
 import Product from './pages/Product/Product'
-import Register from './pages/Register/Register';
+import Cart from './pages/Cart/Cart'
+import SignIn from './pages/SignIn/SignIn';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import Checkout from './pages/Checkout/Checkout';
+import OrderManagement from './shop/pages/OrderManagement/OrderManagement';
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
@@ -45,8 +49,32 @@ const router = createBrowserRouter([
       },
       {
         path: "/products",
-        element: <Product />,
+        element: <Product/>, 
       },
+      {
+        path: "/cart",
+        element: <Cart/>, 
+      },
+      {
+        path: "/checkout",
+        element: <Checkout/>, 
+      },
+      {
+        path: "/shop",
+        element: <OrderManagement/>, 
+      },
+      {
+        path: "/shop/orders",
+        element: <OrderManagement/>, 
+      },
+      {
+        path: "/shop/products",
+        element: <OrderManagement/>, 
+      },
+      {
+        path: "/shop/accounts",
+        element: <OrderManagement/>, 
+      }
     ]
   },
 
@@ -79,6 +107,7 @@ const router = createBrowserRouter([
   }
 ]);
 function App() {
+
   return <div>
     <RouterProvider router={router} />
   </div>

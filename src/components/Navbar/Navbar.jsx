@@ -16,7 +16,16 @@ const Navbar = () => {
     // triggers when file is selected with click
 
     const navigate = useNavigate(); 
-
+    const hiddenRoutes = [
+        "/shop",
+        "/shop/orders",
+        "/shop/products",
+        "/shop/accounts",
+      ];
+      const hideNavbar = hiddenRoutes.includes(window.location.pathname);
+      if (hideNavbar) {
+        return null;
+      }
     return (
         <div className={styles.navbar}>
             <div className={styles.left}>
