@@ -8,13 +8,13 @@ import { useEffect, useState } from "react";
 import Home from './pages/Home/Home';
 import Product from './pages/Product/Product'
 import Cart from './pages/Cart/Cart'
-import SignIn from './pages/SignIn/SignIn';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Checkout from './pages/Checkout/Checkout';
 import OrderManagement from './shop/pages/OrderManagement/OrderManagement';
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
+import Register from './pages/Register/Register'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
 import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
 import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
