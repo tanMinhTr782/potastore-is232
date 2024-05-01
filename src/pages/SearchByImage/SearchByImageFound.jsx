@@ -18,7 +18,7 @@ const ResultCard = ({productName, img}) => {
 }
 const SearchByImageFound = () => {
     const navigate = useNavigate();
-    const numberOfResultFound = 5; 
+    const numberOfResultFound = 0; 
   return (
     <div>
       <Navbar />
@@ -36,13 +36,14 @@ const SearchByImageFound = () => {
           <div className={styles.heading}>
             <div className={styles.title}>We found {numberOfResultFound} results with your image </div>
           </div>
-          <div className= {styles.resultContainer}>
+          {numberOfResultFound > 0 ? (<div className= {styles.resultContainer}>
                 <ResultCard productName = "Mocchau Strawberry" img = "./img/MocchauStrawberry.jpg"/>
                 <ResultCard productName = "Mocchau Strawberry" img = "./img/MocchauStrawberry.jpg"/>
                 <ResultCard productName = "Mocchau Strawberry" img = "./img/MocchauStrawberry.jpg"/>
                 <ResultCard productName = "Mocchau Strawberry" img = "./img/MocchauStrawberry.jpg"/>
                 <ResultCard productName = "Mocchau Strawberry" img = "./img/MocchauStrawberry.jpg"/>
-          </div>
+          </div>) : (<div className = {styles.subtitle}> Try uploading more images</div>)}
+
 
         </div>
       </div>
