@@ -5,6 +5,10 @@
     padding: 10px 30px; 
     display: flex;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 9999; 
 }
 .left { 
     display: flex; 
@@ -102,5 +106,3 @@
     margin-top: auto;
     margin-bottom: auto;
 }
- 
- 

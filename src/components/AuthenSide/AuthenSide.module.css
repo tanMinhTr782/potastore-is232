@@ -1,0 +1,29 @@
+.left {
+    img {
+        object-fit: cover; 
+        object-position: 50% 50%; 
+        height: 100vh; 
+    }
+}
+.leftContainer {
+    display: flex;
+    position: relative;
+}
+.logoContainer { 
+    position: absolute;
+    margin-top: 50px; 
+    margin-left: 66px;
+}
+.logo {
+    font-size: 40px;
+    text-decoration: none;
+    color: white; 
+    font-weight: 700;
+}
+.copyright {
+    color: white; 
+    font-weight: 700;
+    position: absolute;
+    bottom: 30px; 
+    margin-left: 66px;
+}
