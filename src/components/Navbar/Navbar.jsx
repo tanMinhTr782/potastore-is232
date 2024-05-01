@@ -1,18 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import styles from "./Navbar.module.css"
 import {
     ShoppingCartOutlined,
     SearchOutlined,
     CameraAlt,
     ArrowForward,
-    AttachFile
 } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom"; 
 import {Link} from 'react-router-dom';
+import UploadImageButton from '../UploadImageButton/UploadImageButton'
+
 const Navbar = () => {
-    const [upImageBox, setUpImageBox] = useState(false);
-    const isAuthenticated = false; 
+    const [openSearchByImage, setOpenSearchByImage] = useState(false);
+    // const isAuthen = false; 
+    // triggers when file is selected with click
+
     const navigate = useNavigate(); 
+    const hiddenRoutes = [
+        "/shop",
+        "/shop/orders",
+        "/shop/products",
+        "/shop/accounts",
+      ];
+      const hideNavbar = hiddenRoutes.includes(window.location.pathname);
+      if (hideNavbar) {
+        return null;
+      }
     return (
         <div className={styles.navbar}>
             <div className={styles.left}>
@@ -28,16 +41,10 @@ const Navbar = () => {
                             <SearchOutlined style={{ color: 'white' }} />
                         </button>
                         <button className= {styles.button}>
-                            <CameraAlt style={{ color: 'white' }} onClick = {() => {setUpImageBox(!upImageBox)}}/>
+                            <CameraAlt style={{ color: 'white' }} onClick = {() => {setOpenSearchByImage(!openSearchByImage)}}/>
                         </button>
                     </div>
-                    {upImageBox && <div className={styles.upImageBox}>
-                    <div className = {styles.uploadTitle}>Search your product with Potastore AI</div>
-                    <div className = {styles.uploadZone}>
-                        <input type="file" className = {styles.uploadFile} placeholder='Drag an Image here or Upload a file' />
-                        </div>
-                        </div>
-                    }
+                    {openSearchByImage && <UploadImageButton setOpen={setOpenSearchByImage}/>}
                     <div className={styles.section}>
                         <Link to="/" className= {styles.link}> Customer Service </Link>
                         <Link to="/" className= {styles.link}> About Us </Link>
