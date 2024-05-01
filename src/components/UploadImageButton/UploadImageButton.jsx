@@ -78,19 +78,6 @@ const UploadImageButton = ({setOpen}) => {
       </div>
       }
     </form>
-    // <div>
-    //   <div >
-    //     <div className={styles.uploadTitle}>Search your product with Potastore AI</div>
-    //     <div className={styles.uploadZone} onDragEnter={handleDrag} onSubmit={(event) => event.preventDefault()}>
-    //       <button type="file" className={styles.uploadFile} onClick={onButtonClick}>
-    //         <span>
-    //           <AttachFile style={{ width: '24px', height: '24px' }} />
-    //           Drag An Image Here or Upload A File
-    //         </span>
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   )
 }
 

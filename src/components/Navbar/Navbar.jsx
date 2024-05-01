@@ -1,11 +1,10 @@
-import React, { useState, useRef} from 'react'
+import React, { useState} from 'react'
 import styles from "./Navbar.module.css"
 import {
     ShoppingCartOutlined,
     SearchOutlined,
     CameraAlt,
     ArrowForward,
-    AttachFile
 } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom"; 
 import {Link} from 'react-router-dom';
@@ -13,7 +12,7 @@ import UploadImageButton from '../UploadImageButton/UploadImageButton'
 
 const Navbar = () => {
     const [openSearchByImage, setOpenSearchByImage] = useState(false);
-
+    // const isAuthen = false; 
     // triggers when file is selected with click
 
     const navigate = useNavigate(); 
