@@ -1,0 +1,81 @@
+.rightContainer {
+    padding-top: 71px;
+    padding-left: 56px; 
+    padding-right: 56px; 
+    background-color: white;
+    border-radius: 30px;
+}
+.name {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.label{
+    font-weight: bold;
+    width: 200px; 
+    display: block;
+}
+.form {
+    display: flex; 
+    flex-direction: row;
+    gap: 20px;
+}
+.leftForm {
+    display: flex; 
+    flex-direction: column;
+    gap: 30px; 
+    padding-right: 140px; 
+}
+.inputName {
+    width: 525px; 
+    height: 52px; 
+    border: 1px solid #CFD3D4; 
+    border-radius: 8px; 
+    padding-inline: 10px; 
+}
+
+.btn, .submitBtn{ 
+    width: 129px;
+    height: 52px;
+    color: black; 
+    background-color: transparent;
+    border: 1px solid black; 
+    justify-content: center;
+    display: flex;
+    font-style: bold;
+    cursor: pointer;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 5px;
+    margin: auto; 
+}
+.btn:hover {
+    background-color: #CFD3D4; 
+}
+.bdate {
+    display: flex;
+    flex-direction: row;
+}
+.submitBtn {
+    color: white; 
+    background-color: #23A6F0;
+    border:none; 
+}
+.submitBtn:hover {
+    background-color: #0e8bd2;
+}
+.btnContainer {
+    display: flex; 
+    flex-direction: row;
+}
+.eye {
+    z-index: 9999;
+	position: absolute;
+	top: 30%;
+	right: 10px;
+    cursor: pointer;
+}
+.input { 
+    position: relative;
+}
