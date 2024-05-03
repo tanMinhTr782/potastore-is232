@@ -5,6 +5,7 @@
     padding-left: 46px; 
     padding-top: 71px;
     position: sticky;
+    z-index: 4; 
 }
 .nameCard {
     display: flex;

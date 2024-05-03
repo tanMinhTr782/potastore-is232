@@ -6,8 +6,8 @@
   --background-primary-color: #e7f4fc;
   --background-gray-color: #E8E8E8;
   --background-dark-color: #252B42;
-  
-  
+  --user-bg-color: #F5F5F5
+
 }
 .App-logo {
   height: 40vmin;
@@ -50,5 +50,6 @@
 .UserContainer {
   display: flex;
   flex-direction: row;
-  background-color: #F5F5F5; 
+  background-color: var(--user-bg-color); 
 }
+
