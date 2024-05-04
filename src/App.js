@@ -4,7 +4,9 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
 import Home from './pages/home/Home';
 import Product from './pages/Product/Product'
 import Cart from './pages/Cart/Cart'
@@ -24,6 +26,14 @@ import BillingInfo from './user/pages/BillingInfo/BillingInfo';
 import UserInfo from './user/pages/UserInfo/UserInfo';
 import UserOrders from './user/pages/Orders/UserOrders';
 import ChangePass from './user/pages/ChangePass/ChangePass';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Montserrat',
+    ].join(','),
+  },
+});
 
 const Layout = () => {
   return (
@@ -148,7 +158,9 @@ const router = createBrowserRouter([
 function App() {
 
   return <div>
+      <ThemeProvider theme={theme}>
     <RouterProvider router={router} />
+    </ThemeProvider>
   </div>
 }
 

@@ -1,0 +1,19 @@
+.avatar {
+    width: 39px; 
+    height: 40px; 
+    object-fit:cover; 
+    border-radius: 50%; 
+}
+.menuItem {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; 
+
+}
+.container {
+    display: flex; 
+    justify-content: center;
+ }
+ .username {
+    color: black; 
+ }
