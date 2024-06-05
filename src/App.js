@@ -17,6 +17,7 @@ import OrderManagement from './shop/pages/OrderManagement/OrderManagement';
 import ProductManagement from "./shop/pages/ProductManagement/ProductManagement";
 import AccountManagement from "./shop/pages/AccountManagement/AccountManagement";
 import { EditAccount } from "./shop/pages/EditAccount/EditAccount";
+import { EditProduct } from "./shop/pages/EditProduct/EditProduct";
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import Register from './pages/Register/Register'
@@ -76,10 +77,6 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       {
-        path: "/SignIn",
-        element: <SignIn />,
-      },
-      {
         path: "/products",
         element: <Product />,
       },
@@ -106,6 +103,14 @@ const router = createBrowserRouter([
       {
         path: "/shop/accounts",
         element: <AccountManagement/>, 
+      },
+      {
+        path: "/shop/accounts/:accountId",
+        element: <EditAccount/>, 
+      },
+      {
+        path: "/shop/products/:productId",
+        element: <EditProduct/>, 
       }
     ]
   },
@@ -121,16 +126,16 @@ const router = createBrowserRouter([
         path: "/SignIn",
         element: <SignIn />,
       },
-      {
-        path: "/ResetPassword",
-        element: <ResetPassword />,
-      }, {
-        path: "/ResetPassword1",
-        element: <ResetPassword1 />,
-      }, {
-        path: "/ResetPassword2",
-        element: <ResetPassword2 />,
-      },
+      // {
+      //   path: "/ResetPassword",
+      //   element: <ResetPassword />,
+      // }, {
+      //   path: "/ResetPassword1",
+      //   element: <ResetPassword1 />,
+      // }, {
+      //   path: "/ResetPassword2",
+      //   element: <ResetPassword2 />,
+      // },
     ]
   }, 
   {

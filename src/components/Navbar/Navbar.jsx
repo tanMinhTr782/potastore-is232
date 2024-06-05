@@ -39,10 +39,6 @@ const Navbar = () => {
                         </button>
                     </div>
                     {openSearchByImage && <UploadImageButton setOpen={setOpenSearchByImage}/>}
-                    <div className={styles.section}>
-                        <Link to="/" className= {styles.link}> Customer Service </Link>
-                        <Link to="/" className= {styles.link}> About Us </Link>
-                    </div>
                 </div>
             </div>
 

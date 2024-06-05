@@ -1,6 +1,6 @@
 import "./ProductTable.css";
 import Tag from "../../../components/Tag/Tag";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -48,13 +48,10 @@ for (let i = 1; i <= 10; i++) {
 const ProductTable = () => {
   const navigate = useNavigate();
 
+  const [allProduct, setAllProduct] = useState([]);
   const [filter, setFilter] = useState("ProductId");
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const pageSize = 10;
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = currentPage * pageSize;
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
@@ -62,21 +59,40 @@ const ProductTable = () => {
   };
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
-  };
-  const filteredData = data.filter((item) => {
+  };  
+  useEffect(() => {
+    const fetchProducts = async ()=>{
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await fetch("http://localhost:3000/product/forCustomer", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const products = (await response.json());
+        setAllProduct(products.items)
+    }
+    fetchProducts();
+  }, []);
+
+  const pageSize = 10;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = currentPage * pageSize;
+
+  const filteredData = allProduct.filter((item) => {
     if (filter === "ProductId") {
-      return item.productId.toString().includes(searchText.toLowerCase());
+      return item.id.toString().includes(searchText.toLowerCase());
     } else if (filter === "ProductName") {
-      return item.productName.toLowerCase().includes(searchText.toLowerCase());
-    } else {
-      return item.category.toLowerCase().includes(searchText.toLowerCase());
+      return item.name.toLowerCase().includes(searchText.toLowerCase());
     }
   }).slice(startIndex, endIndex);
-  // const filteredData = data.filter((item) => 
-  //     (item.productId.toString().includes(searchText.toLowerCase()) ||
-  //     item.productName.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     item.category.toLowerCase().includes(searchText.toLowerCase()))
-  // ).slice(startIndex, endIndex);
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  console.log({allProduct})
 
   return (
     <Stack className="ProductTableContainer" gap={2}>
@@ -95,7 +111,6 @@ const ProductTable = () => {
             >
                 <MenuItem value="ProductId">ProductId</MenuItem>
                 <MenuItem value="ProductName">ProductName</MenuItem>
-                <MenuItem value="Category">Category</MenuItem>
             </Select>
             <TextField
                 sx={{width: "35%"}}
@@ -118,14 +133,12 @@ const ProductTable = () => {
             <TableRow>
               <TableCell style={{ fontWeight: "bold" }}>PRODUCT ID</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>PRODUCT NAME</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>TYPE</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>
                 PRICE / UNIT
               </TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>
-                UNIT TYPE
+                QUANTITY
               </TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>DISCOUNT RATE</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>ACTION</TableCell>
             </TableRow>
           </TableHead>
@@ -135,27 +148,24 @@ const ProductTable = () => {
                 key={item.key}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell>{item.productId}</TableCell>
-                <TableCell>{item.productName}</TableCell>
+                <TableCell>{item.id.slice(0,8)}</TableCell>
                 <TableCell>
-                  <Chip
-                    label={item.category}
-                    color="primary"
-                    variant="outlined"
-                  />
+                  <Stack direction="row" alignItems="center" gap="8px">
+                    <img src={item.image} alt="product image" style={{width: '40px', aspectRatio: '1/1'}}/>
+                    <span>{item.name}</span>
+                  </Stack>
                 </TableCell>
-                <TableCell>$ {item.price}</TableCell>
-                <TableCell align="center">PER {item.unit}</TableCell>
-                <TableCell style={{ fontWeight: "bold" }}>{item.discountRate || 'NONE'}</TableCell>
+                <TableCell>{item.price} VND</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>{item.quantity}</TableCell>
                 <TableCell>
                   <Stack direction="row" gap={1}>
-                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                    <IconButton onClick={()=> navigate(`/shop/products/${item.id}`)}>
                       <RemoveRedEyeIcon sx={{color: "#000"}}/>
                     </IconButton>
                     <IconButton>
                       <DeleteIcon sx={{color: "#000"}}/>
                     </IconButton>
-                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                    <IconButton onClick={()=> navigate(`/shop/products/${item.id}`)}>
                       <BorderColorOutlinedIcon sx={{color: "#000"}}/>
                     </IconButton>
                   </Stack>
@@ -165,9 +175,8 @@ const ProductTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Stack direction="row" justifyContent="space-between">
-        <p>Showing 1 to 10 of {filteredData.length} results</p>
-        <Pagination count={10} color="primary" />
+      <Stack direction="row" justifyContent="center">
+        <Pagination count={Math.floor(allProduct.length/10)+1} color="primary" onChange={handleChange}/>
       </Stack>
     </Stack>
   );
