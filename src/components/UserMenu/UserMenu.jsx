@@ -16,7 +16,7 @@ export default function UserMenu() {
   const handleLogout = () => {
     const accessToken = localStorage.getItem("accessToken");
 
-    fetch("http://localhost:3000/sign-out", {
+    fetch("http://localhost:3001/sign-out", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
