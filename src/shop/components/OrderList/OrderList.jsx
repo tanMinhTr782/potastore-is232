@@ -1,6 +1,7 @@
 import "./OrderList.css";
 import Tag from "../../../components/Tag/Tag";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Stack,
@@ -12,7 +13,7 @@ import {
   TableHead,
   Paper,
   Pagination,
-  InputLabel,
+  IconButton,
   FormControl,
   Select,
   MenuItem,
@@ -32,7 +33,7 @@ const status = [
   "Cancelled",
   "Rejected",
 ];
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= 30; i++) {
   const statusRandomIndex = Math.floor(Math.random() * 5);
   const order = {
     key: `${i}`,
@@ -48,28 +49,53 @@ for (let i = 1; i <= 10; i++) {
 }
 
 const OrderList = () => {
+  const navigate = useNavigate();
+
+  const [filter, setFilter] = useState("OrderId");
   const [searchText, setSearchText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageSize = 10;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = currentPage * pageSize;
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
-    // Thực hiện xử lý tìm kiếm tại đây
+    console.log(searchText.toLowerCase())
   };
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+  // const filteredData = data.filter((item) => 
+  //   item.trackingNumber.toString().includes(searchText)
+  // ).slice(startIndex, endIndex);
+
+  const filteredData = (filter === "OrderId"
+  ? data.filter((item) => item.trackingNumber.toString().includes(searchText))
+  : data.filter((item) => item.status.toLowerCase().includes(searchText.toLowerCase()))
+  ).slice(startIndex, endIndex);
+
+
   return (
     <Stack className="OrderListContainer" gap={2}>
       <div className="OrderList--Title">
-        <h3>Order</h3>
+        <h3>Orders</h3>
       </div>
-      <Stack direction="row">
-        <FormControl size="small" style={{ width: "25%" }}>
+        <FormControl size="small" style={{ width: "100%" }}>
+        <p style={{fontWeight: "500", marginBottom: "5px"}}>Search by</p>
+        <Stack direction="row">
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            defaultValue="Status"
+            defaultValue="OrderId"
+            onChange={handleFilterChange}
+            sx={{width: "15%"}}
           >
-            <MenuItem value={10}>Status</MenuItem>
-            <MenuItem value={20}>OrderId</MenuItem>
+            <MenuItem value="OrderId">OrderId</MenuItem>
+            <MenuItem value="Status">Status</MenuItem>
           </Select>
-          {/* <TextField
+          <TextField
+            sx={{width: "35%"}}
             value={searchText}
             onChange={handleSearchChange}
             placeholder="Tìm kiếm"
@@ -80,9 +106,9 @@ const OrderList = () => {
                 </InputAdornment>
               ),
             }}
-          /> */}
-        </FormControl>
+          />
       </Stack>
+        </FormControl>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -101,18 +127,41 @@ const OrderList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item) => (
+            {filteredData.map((item) => (
               <TableRow
                 key={item.key}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>{item.trackingNumber}</TableCell>
                 <TableCell>
-                  <Chip
+                {(() => {
+                  let color = "";
+                  switch (item.status) {
+                    case "New order":
+                      color = "#1E40AF";
+                      break;
+                    case "Inproduction":
+                      color = "#92400E";
+                      break;
+                    case "Shipped":
+                      color = "#065F46";
+                      break;
+                    case "Cancelled":
+                      color = "red";
+                      break;
+                    case "Rejected":
+                      color = "orange";
+                      break;
+                    default:
+                      break;
+                  }
+                  return <Chip
                     label={item.status}
-                    color="primary"
+                    sx={{ bgcolor: {color} }}
                     variant="outlined"
                   />
+                })()}
+                  
                 </TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>{item.customerName}</TableCell>
@@ -120,9 +169,15 @@ const OrderList = () => {
                 <TableCell>{item.total}</TableCell>
                 <TableCell>
                   <Stack direction="row" gap={1}>
-                    <RemoveRedEyeIcon />
-                    <DeleteIcon />
-                    <BorderColorOutlinedIcon />
+                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                      <RemoveRedEyeIcon sx={{color: "#000"}}/>
+                    </IconButton>
+                    <IconButton>
+                      <DeleteIcon sx={{color: "#000"}}/>
+                    </IconButton>
+                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                      <BorderColorOutlinedIcon sx={{color: "#000"}}/>
+                    </IconButton>
                   </Stack>
                 </TableCell>
               </TableRow>
@@ -131,7 +186,7 @@ const OrderList = () => {
         </Table>
       </TableContainer>
       <Stack direction="row" justifyContent="space-between">
-        <p>Showing 1 to 10 of 97 results</p>
+        <p>Showing 1 to 10 of {filteredData.length} results</p>
         <Pagination count={10} color="primary" />
       </Stack>
     </Stack>

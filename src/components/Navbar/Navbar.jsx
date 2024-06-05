@@ -11,16 +11,10 @@ import {Link} from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate(); 
-    const hiddenRoutes = [
-        "/shop",
-        "/shop/orders",
-        "/shop/products",
-        "/shop/accounts",
-      ];
-      const hideNavbar = hiddenRoutes.includes(window.location.pathname);
-      if (hideNavbar) {
-        return null;
-      }
+    const hideNavbar = window.location.pathname.startsWith("/shop");
+    if (hideNavbar) {
+      return null;
+    }
     return (
         <div className={styles.navbar}>
             <div className={styles.left}>

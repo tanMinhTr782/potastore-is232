@@ -11,13 +11,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import "./Footer.css";
 
 const Footer = () => {
-  const hiddenRoutes = [
-    "/shop",
-    "/shop/orders",
-    "/shop/products",
-    "/shop/accounts",
-  ];
-  const hideNavbar = hiddenRoutes.includes(window.location.pathname);
+  const hideNavbar = window.location.pathname.startsWith("/shop");
   if (hideNavbar) {
     return null;
   }
