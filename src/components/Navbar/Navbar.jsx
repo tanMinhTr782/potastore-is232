@@ -9,10 +9,10 @@ import {
 import { useNavigate } from "react-router-dom"; 
 import {Link} from 'react-router-dom';
 import UploadImageButton from '../UploadImageButton/UploadImageButton'
-
+import UserMenu from '../UserMenu/UserMenu'
 const Navbar = () => {
     const [openSearchByImage, setOpenSearchByImage] = useState(false);
-    // const isAuthen = false; 
+    const isAuthen = false; 
     // triggers when file is selected with click
 
     const navigate = useNavigate(); 
@@ -52,10 +52,17 @@ const Navbar = () => {
                     <ShoppingCartOutlined className={styles.cart} />
                     <span className={styles.cartCount}>0</span>
                 </button>
+                {
+                    !isAuthen ? 
+                    (<UserMenu/>)
+                    : (
                 <button className={styles.signinBtn}  onClick={() =>  { navigate('/SignIn') }}> 
                     <span className={styles.cartCount}>Sign in</span>
                     <ArrowForward className={styles.arrow}/>
                 </button>
+                    )
+                }
+
 
             </div>
         </div>

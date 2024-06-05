@@ -1,6 +1,12 @@
-import "./App.css";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import './App.css';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+} from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
 import Home from './pages/home/Home';
 import Product from './pages/Product/Product'
 import Cart from './pages/Cart/Cart'
@@ -18,6 +24,20 @@ import ResetPassword from './pages/ResetPassword/ResetPassword'
 import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
 import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
 import SearchByImageFound from './pages/SearchByImage/SearchByImageFound'
+import Sidebar from './user/components/Sidebar/Sidebar';
+import BillingInfo from './user/pages/BillingInfo/BillingInfo';
+import UserInfo from './user/pages/UserInfo/UserInfo';
+import UserOrders from './user/pages/Orders/UserOrders';
+import ChangePass from './user/pages/ChangePass/ChangePass';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Montserrat',
+    ].join(','),
+  },
+});
+
 const Layout = () => {
   return (
     <div className="App">
@@ -28,6 +48,18 @@ const Layout = () => {
   )
 }
 
+const UserLayout = () => {
+  return (
+    <div>
+      <Navbar />
+      <div className = "UserContainer">
+      <Sidebar/>
+      <Outlet/>
+      </div>
+      <Footer/>
+    </div>
+  )
+}
 const AuthenLayout = () => {
   return (
     <div className="AuthenContainer">
@@ -104,14 +136,36 @@ const router = createBrowserRouter([
   {
       path: "/SearchByImageFound",
       element: <SearchByImageFound />,
+  }, 
+  {
+    element: <UserLayout />,
+    children: [
+      {
+        path: "/user/info",
+        element: <UserInfo />,
+      }, 
+      {
+        path: "/user/changePwd",
+        element: <ChangePass/>,
+      }, 
+      {
+        path: "/user/orders",
+        element: <UserOrders />,
+      },
+      {
+        path: "/user/billing",
+        element: <BillingInfo />,
+      }
+    ]
   }
 ]);
 function App() {
-  return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
-  );
+
+  return <div>
+      <ThemeProvider theme={theme}>
+    <RouterProvider router={router} />
+    </ThemeProvider>
+  </div>
 }
 
 export default App;
