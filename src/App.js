@@ -14,6 +14,10 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Checkout from './pages/Checkout/Checkout';
 import OrderManagement from './shop/pages/OrderManagement/OrderManagement';
+import ProductManagement from "./shop/pages/ProductManagement/ProductManagement";
+import AccountManagement from "./shop/pages/AccountManagement/AccountManagement";
+import { EditAccount } from "./shop/pages/EditAccount/EditAccount";
+import { EditProduct } from "./shop/pages/EditProduct/EditProduct";
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import Register from './pages/Register/Register'
@@ -72,39 +76,43 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
+      { path: "/", element: <Home /> },
       {
         path: "/products",
-        element: <Product/>, 
+        element: <Product />,
       },
       {
         path: "/cart",
-        element: <Cart/>, 
+        element: <Cart />,
       },
       {
         path: "/checkout",
-        element: <Checkout/>, 
+        element: <Checkout />,
       },
       {
         path: "/shop",
-        element: <OrderManagement/>, 
+        element: <OrderManagement />,
       },
       {
         path: "/shop/orders",
-        element: <OrderManagement/>, 
+        element: <OrderManagement />,
       },
       {
         path: "/shop/products",
-        element: <OrderManagement/>, 
+        element: <ProductManagement />,
       },
       {
         path: "/shop/accounts",
-        element: <OrderManagement/>, 
+        element: <AccountManagement/>, 
       },
-
+      {
+        path: "/shop/accounts/:accountId",
+        element: <EditAccount/>, 
+      },
+      {
+        path: "/shop/products/:productId",
+        element: <EditProduct/>, 
+      }
     ]
   },
 
@@ -119,16 +127,16 @@ const router = createBrowserRouter([
         path: "/SignIn",
         element: <SignIn />,
       },
-      {
-        path: "/ResetPassword",
-        element: <ResetPassword />,
-      }, {
-        path: "/ResetPassword1",
-        element: <ResetPassword1 />,
-      }, {
-        path: "/ResetPassword2",
-        element: <ResetPassword2 />,
-      },
+      // {
+      //   path: "/ResetPassword",
+      //   element: <ResetPassword />,
+      // }, {
+      //   path: "/ResetPassword1",
+      //   element: <ResetPassword1 />,
+      // }, {
+      //   path: "/ResetPassword2",
+      //   element: <ResetPassword2 />,
+      // },
     ]
   }, 
   {

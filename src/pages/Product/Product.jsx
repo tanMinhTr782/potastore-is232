@@ -83,12 +83,12 @@ const Product = ({ productId }) => {
           >
             Description
           </div>
-          <div
+          {/* <div
             className={`title${!showDescription ? "__selected" : ""}`}
             onClick={() => setShowDescription(false)}
           >
             Reviews
-          </div>
+          </div> */}
         </Stack>
         {showDescription ? (
           <ProductDescription productId={productId} />
