@@ -1,0 +1,15 @@
+.ShopNavbar{
+    width: 15%;
+    height: 100vh;
+    background-color: #F9FAFB;
+    padding: 20px;
+    border-right: 1px solid var(--border-color);
+
+}
+
+.navLink{
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    align-items: center;
+}

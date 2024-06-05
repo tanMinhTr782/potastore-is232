@@ -1,0 +1,11 @@
+.OrderListContainer{
+    width: 100%;
+    padding: 20px;
+}
+
+.TrackingList--Title{
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+}

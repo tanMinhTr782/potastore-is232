@@ -30,6 +30,7 @@ import BillingInfo from './user/pages/BillingInfo/BillingInfo';
 import UserInfo from './user/pages/UserInfo/UserInfo';
 import UserOrders from './user/pages/Orders/UserOrders';
 import ChangePass from './user/pages/ChangePass/ChangePass';
+import DetectTracking from './data-scientist/pages/DetectTracking/DetectTracking';
 
 const theme = createTheme({
   typography: {
@@ -142,6 +143,10 @@ const router = createBrowserRouter([
       path: "/SearchByImageFound",
       element: <SearchByImageFound />,
   }, 
+  {
+    path: "/data-scientist",
+    element: <DetectTracking/>, 
+  },
   {
     element: <UserLayout />,
     children: [
