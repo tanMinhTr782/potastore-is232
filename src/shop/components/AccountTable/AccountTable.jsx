@@ -85,6 +85,7 @@ const AccountTable = () => {
         };
         fetchAccounts();
       }, [currentPage]);
+    console.log(allAccount)
     const filteredData = (filter === "UserId"
     ? allAccount.filter((item) => item.id.toLowerCase().includes(searchText.toLowerCase()))
     : allAccount.filter((item) => item.role.toLowerCase().includes(searchText.toLowerCase()))

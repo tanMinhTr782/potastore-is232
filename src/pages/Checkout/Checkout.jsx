@@ -46,7 +46,7 @@ const Checkout = () => {
     };
     fetchUser();
   }, []);
-  console.log(user)
+  
   const cart = JSON.parse(localStorage.getItem('cart'));
   const productOrders = cart.map((item) => ({
     productId: item.id,

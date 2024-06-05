@@ -20,6 +20,7 @@ import ProductManagement from "./shop/pages/ProductManagement/ProductManagement"
 import AccountManagement from "./shop/pages/AccountManagement/AccountManagement";
 import { EditAccount } from "./shop/pages/EditAccount/EditAccount";
 import { EditProduct } from "./shop/pages/EditProduct/EditProduct";
+import { EditOrder } from "./shop/pages/EditOrder/EditOrder";
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import Register from './pages/Register/Register'
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
       {
         path: "/shop/products/:productId",
         element: <EditProduct/>, 
+      },
+      {
+        path: "/shop/orders/:orderId",
+        element: <EditOrder/>, 
       }
     ]
   },

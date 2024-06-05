@@ -164,13 +164,7 @@ const OrderList = () => {
                 <TableCell>{item.total} VND</TableCell>
                 <TableCell>
                   <Stack direction="row" gap={1}>
-                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
-                      <RemoveRedEyeIcon sx={{color: "#000"}}/>
-                    </IconButton>
-                    <IconButton>
-                      <DeleteIcon sx={{color: "#000"}}/>
-                    </IconButton>
-                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                    <IconButton onClick={()=> navigate(`/shop/orders/${item.id}`)}>
                       <BorderColorOutlinedIcon sx={{color: "#000"}}/>
                     </IconButton>
                   </Stack>
