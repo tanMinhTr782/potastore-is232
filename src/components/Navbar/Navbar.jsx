@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState} from 'react'
 import styles from "./Navbar.module.css"
 import {
     ShoppingCartOutlined,
     SearchOutlined,
     CameraAlt,
-    ArrowForward
+    ArrowForward,
 } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom"; 
 import {Link} from 'react-router-dom';
+import UploadImageButton from '../UploadImageButton/UploadImageButton'
 
 const Navbar = () => {
+    const [openSearchByImage, setOpenSearchByImage] = useState(false);
+    // const isAuthen = false; 
+    // triggers when file is selected with click
+
     const navigate = useNavigate(); 
     const hideNavbar = window.location.pathname.startsWith("/shop");
     if (hideNavbar) {
@@ -30,9 +35,10 @@ const Navbar = () => {
                             <SearchOutlined style={{ color: 'white' }} />
                         </button>
                         <button className= {styles.button}>
-                            <CameraAlt style={{ color: 'white' }} />
+                            <CameraAlt style={{ color: 'white' }} onClick = {() => {setOpenSearchByImage(!openSearchByImage)}}/>
                         </button>
                     </div>
+                    {openSearchByImage && <UploadImageButton setOpen={setOpenSearchByImage}/>}
                     <div className={styles.section}>
                         <Link to="/" className= {styles.link}> Customer Service </Link>
                         <Link to="/" className= {styles.link}> About Us </Link>

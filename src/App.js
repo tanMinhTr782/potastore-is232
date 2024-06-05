@@ -1,17 +1,23 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Home from "./pages/home/Home";
-import Product from "./pages/Product/Product";
-import Cart from "./pages/Cart/Cart";
-import SignIn from "./pages/SignIn/SignIn";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
-import Checkout from "./pages/Checkout/Checkout";
-import OrderManagement from "./shop/pages/OrderManagement/OrderManagement";
+import Home from './pages/home/Home';
+import Product from './pages/Product/Product'
+import Cart from './pages/Cart/Cart'
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+import Checkout from './pages/Checkout/Checkout';
+import OrderManagement from './shop/pages/OrderManagement/OrderManagement';
 import ProductManagement from "./shop/pages/ProductManagement/ProductManagement";
 import AccountManagement from "./shop/pages/AccountManagement/AccountManagement";
 import { EditAccount } from "./shop/pages/EditAccount/EditAccount";
+import AuthenSide from './components/AuthenSide/AuthenSide'
+import SignIn from './pages/SignIn/SignIn'
+import Register from './pages/Register/Register'
+import ResetPassword from './pages/ResetPassword/ResetPassword'
+import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
+import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
+import SearchByImageFound from './pages/SearchByImage/SearchByImageFound'
 const Layout = () => {
   return (
     <div className="App">
@@ -19,8 +25,18 @@ const Layout = () => {
       <Outlet />
       <Footer />
     </div>
-  );
-};
+  )
+}
+
+const AuthenLayout = () => {
+  return (
+    <div className="AuthenContainer">
+      <AuthenSide />
+      <Outlet />
+    </div>
+  )
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,14 +73,38 @@ const router = createBrowserRouter([
       },
       {
         path: "/shop/accounts",
-        element: <AccountManagement />,
+        element: <AccountManagement/>, 
+      }
+    ]
+  },
+
+  {
+    element: <AuthenLayout />,
+    children: [
+      {
+        path: "/Register",
+        element: <Register />,
       },
       {
-        path: "/shop/accounts/:accountId",
-        element: <EditAccount />,
+        path: "/SignIn",
+        element: <SignIn />,
       },
-    ],
-  },
+      {
+        path: "/ResetPassword",
+        element: <ResetPassword />,
+      }, {
+        path: "/ResetPassword1",
+        element: <ResetPassword1 />,
+      }, {
+        path: "/ResetPassword2",
+        element: <ResetPassword2 />,
+      },
+    ]
+  }, 
+  {
+      path: "/SearchByImageFound",
+      element: <SearchByImageFound />,
+  }
 ]);
 function App() {
   return (

@@ -1,3 +1,4 @@
+
 .right {
     position: relative;
     background-color: white;
@@ -38,6 +39,14 @@
     font-size: 18px; 
     margin-bottom: 10px;
 }
+.link {
+    text-decoration: none;
+    color: #3EC1F3; 
+    font-weight: 600;
+}
+.link:hover {
+    text-decoration: underline;
+}
 .inputContainer {
     border:none; 
     border-bottom: 1px solid black; 
@@ -57,9 +66,6 @@
     font-weight: 600;
     border: 1px solid black;
     font-size: 20px;
-    justify-content: center;
-    display: flex;
-    gap: 20px; 
 }
 .createBtn, .signUpBtn {
     padding-left: 93px; 
@@ -73,23 +79,19 @@
 .createBtn:hover ,  .signUpBtn {
     background-color: white;
     color: black;
+    justify-content: center;
+    display: flex;
+    gap: 20px; 
 }
  
 
-.remind, .registerRemind {
+.remind {
     display: flex; 
     justify-content: center;
     gap: 10px; 
     margin-top: 20px; 
-}
-.registerRemind {
-    justify-content: left;
-}
-.link {
-    text-decoration: none;
-    color: #3EC1F3; 
-    font-weight: 600;
-}
-.link:hover {
-    text-decoration: underline;
+    span {
+        color: #3EC1F3; 
+        font-weight: 600;
+    }
 }

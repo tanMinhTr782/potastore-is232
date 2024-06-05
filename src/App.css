@@ -43,3 +43,8 @@
     transform: rotate(360deg);
   }
 }
+.AuthenContainer {
+  display: flex;
+  flex-direction: row;
+
+}
