@@ -1,6 +1,7 @@
 .container {
     width: 348px; 
     height: 588px;
+    cursor: pointer;
 }
 .imgContainer {
     width: 348px;

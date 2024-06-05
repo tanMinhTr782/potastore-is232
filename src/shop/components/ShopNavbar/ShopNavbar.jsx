@@ -10,7 +10,31 @@ import { useNavigate, NavLink } from "react-router-dom";
 
 const ShopNavbar = () => {
   const navigate = useNavigate();
+  const handleLogout = () => {
+    const accessToken = localStorage.getItem("accessToken");
 
+    fetch("http://localhost:3001/sign-out", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("role");
+          localStorage.removeItem("accountId");
+          localStorage.removeItem("cart");
+          window.location.href = "../SignIn";
+        } else {
+          console.error("Logout failed:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error);
+      });
+  };
   return (
     <div className="ShopNavbar">
       <h2 style={{ marginBottom: "10px" }}>Potastore</h2>
@@ -44,7 +68,7 @@ const ShopNavbar = () => {
           </MenuItem>
         </NavLink>
 
-        <NavLink to="/SignIn" className="navLink">
+        <NavLink onClick={handleLogout} className="navLink">
           <MenuItem style={{ width: "100%" }}>
             <ListItemIcon>
               <LogoutOutlinedIcon fontSize="small" />

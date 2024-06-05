@@ -2,12 +2,13 @@ import styles from './Home.module.css'
 import CategoryCard from '../../components/categoryCard/CategoryCard'
 import Dropdown from '../../components/Dropdown/Dropdown'
 import ProductCard from '../../components/productCard/ProductCard';
+import React, { useState, useEffect } from "react";
 
 const type = ["Fruit", "Vegetable", "All Type"];
 const availability = ["Per fruit", "Per pack", "All Availability"];
 const price = ["From low to high", "From high to low", "All Price"];
 
-const products = [
+const allproducts = [
   {
     name: 'Mocchau Strawberry',
     price: '6.48',
@@ -36,6 +37,26 @@ const products = [
 ];
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await fetch(
+        "http://localhost:3001/product/forCustomer",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const products = await response.json();
+      setProducts(products.items);
+    };
+    fetchProducts();
+  }, []);
+  console.log({products})
   return (
     <div className={styles.container}>
 

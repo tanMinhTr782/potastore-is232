@@ -27,6 +27,8 @@ export default function UserMenu() {
         if (response.ok) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("role");
+          localStorage.removeItem("accountId");
+          localStorage.removeItem("cart");
           window.location.href = "../SignIn";
         } else {
           console.error("Logout failed:", response.status);

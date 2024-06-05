@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   TextField,
@@ -15,40 +15,77 @@ import { useLocation } from "react-router-dom";
 
 import "./Checkout.css";
 
-const info = {
-  fname: "Lorem",
-  lname: "Ipsum",
-  email: "welcome@example.com",
-  phone: "0969123456",
-  address: "1234 Abc Street",
-  payment: {
-    cardName: "LOREM IPSUM",
-    cardNumber: "111111111111",
-  },
-};
-
 const Checkout = () => {
   const location = useLocation();
-
+  const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
-
-  const [fname, setFname] = useState(info.fname);
-  const [lname, setLname] = useState(info.lname);
-  const [email, setEmail] = useState(info.email);
-  const [phone, setPhone] = useState(info.phone);
-  const [address, setAddress] = useState(info.address);
-  const [cardName, setCardName] = useState(info.payment.cardName);
-  const [cardNumber, setCardNumber] = useState(info.payment.cardNumber);
+  const [error, setError] = useState(false);
 
   const priceData = location.state;
+
+  const accessToken = localStorage.getItem("accessToken");
+  const accountId = localStorage.getItem("accountId");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetch(
+        `http://localhost:3001/account/detail?id=${accountId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const account = await response.json();
+      setUser(account);
+    };
+    fetchUser();
+  }, []);
+  console.log(user)
+  const cart = JSON.parse(localStorage.getItem('cart'));
+  const productOrders = cart.map((item) => ({
+    productId: item.id,
+    quantity: item.quantity
+  }));
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({ event });
-    // setOrderInfo(event.target.value)
+    const data = new FormData(event.currentTarget);
+    try {
+      const orderCode = Math.floor(Math.random() * 10000).toString();
+      console.log(orderCode);
+      const response = await fetch("http://localhost:3001/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          customerId: accountId,
+          orderCode: orderCode,
+          total: priceData.total,
+          productOrders: productOrders
+        }),
+      });
+      console.log(JSON.stringify({
+        customerId: accountId,
+        orderCode: orderCode,
+        total: priceData.total,
+        productOrders: productOrders
+      }))
+      // Check if the request was successful (status code 2xx)
+      if (response.ok) {
+        // window.location.href = "../";
+      } else {
+        const errorData = await response.json();
+        setError(true);
+      }
+    } catch (error) {}
   };
 
   return (
@@ -64,11 +101,11 @@ const Checkout = () => {
         <Stack sx={{ padding: "10px 20px", backgroundColor: "#fff" }}>
           <Stack direction="row" justifyContent="space-between">
             <p>Products ({priceData.totalQuantity})</p>
-            <p>${priceData.subTotal}</p>
+            <p>{priceData.subTotal} VND</p>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <p>Shipping</p>
-            <p>${priceData.shippingfee}</p>
+            <p>{priceData.shippingfee} VND</p>
           </Stack>
           <Stack
             direction="row"
@@ -76,7 +113,7 @@ const Checkout = () => {
             sx={{ margin: "20px 0" }}
           >
             <p style={{ fontWeight: "bold" }}>Total amount</p>
-            <p style={{ fontWeight: "bold" }}>${priceData.total}</p>
+            <p style={{ fontWeight: "bold" }}>{priceData.total} VND</p>
           </Stack>
         </Stack>
       </Stack>
@@ -87,48 +124,58 @@ const Checkout = () => {
               Checkout
             </h1>
             <Stack gap={4}>
-              <TextField
-                label="First Name"
-                onChange={(e) => setFname(e.target.value)}
-                required
-                variant="outlined"
-                sx={{ width: "30%" }}
-                value={fname}
-              />
-              <TextField
-                label="Last Name"
-                onChange={(e) => setLname(e.target.value)}
-                required
-                variant="outlined"
-                sx={{ width: "30%" }}
-                value={lname}
-              />
-              <TextField
-                label="Email Address"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                variant="outlined"
-                sx={{ width: "60%" }}
-                type="email"
-                value={email}
-              />
-              <TextField
-                label="Phone Number"
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                variant="outlined"
-                sx={{ width: "60%" }}
-                type="tel"
-                value={phone}
-              />
-              <TextField
-                label="Address"
-                onChange={(e) => setAddress(e.target.value)}
-                required
-                variant="outlined"
-                fullWidth
-                value={address}
-              />
+              <Stack gap={4} direction="row">
+                <TextField
+                  label="Username"
+                  name="name"
+                  id="name"
+                  variant="outlined"
+                  required
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ width: "30%" }}
+                  value={user ? user.name : "Lorem Ipsum"}
+                />
+                <TextField
+                  label="Email Address"
+                  name="email"
+                  id="email"
+                  variant="outlined"
+                  required
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ width: "30%" }}
+                  value={user ? user.email : "abc@gmail.com"}
+                />
+              </Stack>
+              <Stack gap={4} direction="row">
+                <TextField
+                  label="Phone Number"
+                  name="phone"
+                  id="phone"
+                  variant="outlined"
+                  required
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ width: "30%" }}
+                  value={user?.phoneNumber ? user.phoneNumber : "0123456789"}
+                />
+                <TextField
+                  label="Address"
+                  name="address"
+                  id="address"
+                  variant="outlined"
+                  required
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ width: "30%" }}
+                  value={user?.address ? user.address : "KTX Khu A, Di An, Binh Duong"}
+                />
+              </Stack>
             </Stack>
           </Stack>
           <Stack>
@@ -138,19 +185,17 @@ const Checkout = () => {
             <Stack direction="row" gap={4}>
               <TextField
                 label="Name on Card"
-                onChange={(e) => setCardName(e.target.value)}
                 required
                 variant="outlined"
                 sx={{ width: "30%" }}
-                value={cardName}
+                value="LOREM IPSUM"
               />
               <TextField
                 label="Credit Card Number"
-                onChange={(e) => setCardNumber(e.target.value)}
                 required
                 variant="outlined"
                 sx={{ width: "30%" }}
-                value={cardNumber}
+                value="111111111111"
               />
             </Stack>
             <p>Full name as display on card</p>
@@ -188,7 +233,7 @@ const Checkout = () => {
           <Stack gap={4} alignItems="center" sx={{padding: "20px 50px"}}>
             <h2>Order Placed Successfully</h2>
             <p style={{textAlign: "center", fontSize: '14px', padding: "0 50px"}}>Your Order Has Been Placed Successfull We'll Try To Ship It To Your Door Step As Soon We Can. Cheers</p>
-            <NavLink to="/home" style={{ width: "80%" }}>
+            <NavLink to="/" style={{ width: "80%" }}>
               <Button variant="contained" color="primary" fullWidth>CONTINUE</Button>
             </NavLink>
           </Stack>

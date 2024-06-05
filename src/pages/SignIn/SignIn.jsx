@@ -32,6 +32,7 @@ const SignIn = () => {
         const userData = await response.json();
         // console.log('Login successful. User data:', userData);
         localStorage.setItem("role", userData.role);
+        localStorage.setItem("accountId", userData.accountId);
         localStorage.setItem("accessToken", userData.accessToken);
         if (userData.role === "Customer") {
           window.location.href = "../";

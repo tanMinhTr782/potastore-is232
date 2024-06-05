@@ -5,6 +5,8 @@ import {
   Outlet,
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect} from "react";
+import { useLocation} from "react-router-dom";
 
 
 import Home from './pages/home/Home';
@@ -77,7 +79,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       {
-        path: "/products",
+        path: "/products/:productId",
         element: <Product />,
       },
       {
@@ -165,6 +167,7 @@ const router = createBrowserRouter([
   }
 ]);
 function App() {
+
 
   return <div>
       <ThemeProvider theme={theme}>

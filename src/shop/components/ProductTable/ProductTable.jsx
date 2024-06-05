@@ -29,19 +29,6 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 500,
-  bgcolor: "background.paper",
-  border: "1px solid #e4e4e4",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
-};
-
 const ProductTable = () => {
   const navigate = useNavigate();
 
