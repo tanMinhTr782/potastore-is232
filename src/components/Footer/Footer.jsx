@@ -4,20 +4,14 @@ import Button from "@mui/material/Button";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 import "./Footer.css";
 
 const Footer = () => {
-  const hiddenRoutes = [
-    "/shop",
-    "/shop/orders",
-    "/shop/products",
-    "/shop/accounts",
-  ];
-  const hideNavbar = hiddenRoutes.includes(window.location.pathname);
+  const hideNavbar = window.location.pathname.startsWith("/shop");
   if (hideNavbar) {
     return null;
   }
@@ -28,13 +22,13 @@ const Footer = () => {
           <div style={{ fontWeight: "bold", fontSize: "22px" }}>Potastore</div>
           <div style={{ fontSize: "14px" }}>Sell fresh products with love</div>
         </Stack>
-        <Button
+        {/* <Button
           color="primary"
           variant="contained"
           style={{ fontSize: "12px", fontWeight: "bold", backgroundColor: "#23A6F0" }}
         >
           Contact Us
-        </Button>
+        </Button> */}
       </Stack>
       <Stack direction="row" gap={8}>
         <Stack gap={1}>
@@ -83,14 +77,14 @@ const Footer = () => {
       </Stack>
       <Stack direction="row" justifyContent="space-between">
         <div className="InfoTitle">
-            Copyright 2024 Potastore. All Right Reversed.
+          Copyright 2024 Potastore. All Right Reversed.
         </div>
         <Stack direction="row" gap={1}>
-            <FacebookOutlinedIcon sx={{color: "#23A6F0"}}/>
-            <InstagramIcon sx={{color: "#23A6F0"}}/>
-            <TwitterIcon sx={{color: "#23A6F0"}}/>
+          <FacebookOutlinedIcon sx={{ color: "#23A6F0" }} />
+          <InstagramIcon sx={{ color: "#23A6F0" }} />
+          <TwitterIcon sx={{ color: "#23A6F0" }} />
         </Stack>
-      </Stack> 
+      </Stack>
     </Stack>
   );
 };
