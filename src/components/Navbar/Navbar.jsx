@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 import UploadImageButton from '../UploadImageButton/UploadImageButton'
 import UserMenu from '../UserMenu/UserMenu'
 const Navbar = ({page}) => {
-    const [openSearchByImage, setOpenSearchByImage] = useState(true);
+    const [openSearchByImage, setOpenSearchByImage] = useState(false);
     const isAuthen = false; 
     // triggers when file is selected with click
 
