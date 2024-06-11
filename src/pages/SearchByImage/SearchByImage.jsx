@@ -1,28 +1,30 @@
 import {useState, useEffect } from 'react'
 import styles from './SearchByImage.module.css'
-import {useLocation, useNavigation, Link } from 'react-router-dom'
+import {useLocation, Link, useNavigate } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar';
 import BeatLoader from "react-spinners/BeatLoader";
 const override = {
   display: "block",
   margin: "0 auto",
 };
-const ResultCard = ({productName, img}) => {
-  return (
-    <div  className = {styles.scanResult}>
-        <img src = {img} className = {styles.resultImage}/>
-        <p>{productName}</p>
-        <button className = {styles.addToCart}> Add to cart</button>
-    </div>
-  )
-}
+
 const SearchByImage = () => {
   const [result, setResult] = useState([]); 
   const [numberResult, setNumberResult] = useState(0); 
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate(); 
   const { state } = useLocation();
   const [preview, setPreview] = useState("./img/search_img_bg.jpg");
+  
+  const ResultCard = ({product}) => {
+    return (
+      <div  className = {styles.scanResult}>
+          <img src = {product.image} className = {styles.resultImage} onClick = {() => navigate(`/products/${product.id}`)}/>
+          <p onClick = {() => navigate(`/products/${product.id}`)}>{product.name}</p>
+          <button className = {styles.addToCart} onClick={() => handleAddToCart(product, 1)}> Add to cart</button>
+      </div>
+    )
+  }
 
     const getResult = (image) => { 
     setLoading(true); 
@@ -60,7 +62,6 @@ const SearchByImage = () => {
       }
 
     }
-
     useEffect(() => {
       if (state == null) {
           setPreview("./img/search_img_bg.jpg");
@@ -71,7 +72,37 @@ const SearchByImage = () => {
       getResult(state.image); 
       // free memory when ever this component is unmounted
       return () => URL.revokeObjectURL(objectUrl)
-  }, [state])
+  }, [])
+  const handleAddToCart = (product, quantity) => {
+    if(quantity > 0){
+      if(localStorage.getItem('cart')){
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        const index = cart.findIndex(ele => ele.id === product.id);
+        if(index !== -1){
+          cart[index].quantity += quantity;
+        }
+        else{
+          const cartItem = {
+            id: product.id,
+            name: product.name,
+            image: product.image, 
+            price: product.price,
+            quantity: quantity,
+          }
+          cart.push(cartItem);
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+    }
+    else {
+      if(localStorage.getItem('cart')){
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        cart = cart.filter(item => item.id !== product.id)
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+    }
+  }
+  
   return (
     <div>
       <Navbar page = "SearchByImage" />
@@ -125,7 +156,7 @@ const SearchByImage = () => {
           </div>
           {numberResult > 0 ? (<div className= {styles.resultContainer}>
             {result.map(res => 
-                <ResultCard productName = {res.name} img = {res.image}/>
+                <ResultCard product={res}/>
             )}
           </div>) : (<div className = {styles.subtitle}> Try uploading more images</div>)}
               </>

@@ -19,19 +19,6 @@ import {
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
-const data = [];
-for (let i = 1; i <= 10; i++) {
-  const order = {
-    key: `${i}`,
-    trackingNumber: 1000000 + i,
-    customerName: `Not Found`,
-    quantity: Math.floor(Math.random() * 20) + 1,
-    img: '/img/FruitCategory.jpg',
-    orderDate: `2023-12-${i < 10 ? "0" + i : i}`,
-  };
-
-  data.push(order);
-}
 
 const DetectList = () => {
   const [searchText, setSearchText] = useState("");
@@ -100,7 +87,7 @@ const DetectList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.filter((row) =>
+            {allResult.filter((row) =>
                 // note that I've incorporated the searchedVal length check here
                 !searchText.length || row.orderDate
                   .toString()
@@ -109,31 +96,35 @@ const DetectList = () => {
               )
               .map((item) => (
               <TableRow
-                key={allResult?.id}
+                key={item?.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell style={{ fontSize: '20px'}}>{allResult?.id.slice(0, 8)}</TableCell>
+                <TableCell style={{ fontSize: '20px'}}>{item?.id.slice(0,8)}</TableCell>
                 <TableCell>
-                  <img src = {allResult?.image} alt = "" style = {{width: "200px", height: '180px', objectFit: 'contain'}}></img>
+                  <img src = {item?.image} alt = "" style = {{width: "200px", height: '180px', objectFit: 'contain'}}></img>
                 </TableCell>
-                { allResult?.result === 'Not Found' ? (
+                { item?.result === 'Not Found' ? (
                   <TableCell style = {{fontWeight: "bold", fontSize: '20px'}}>
                     <span style = {{color: 'red'}}> Can't Detect</span>
                   </TableCell>
                 )
                 : (
-                  <TableCell style = {{fontWeight: "bold", fontSize: '20px'}}> {allResult?.result} </TableCell>
+                  <TableCell style = {{fontWeight: "bold", fontSize: '20px'}}> {item?.result} </TableCell>
                 )
                 }
-                <TableCell  style={{ fontSize: '20px'}}>{allResult?.dateUpload}</TableCell>
+                <TableCell  style={{ fontSize: '20px'}}>{item?.dateUpload}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       <Stack direction="row" justifyContent="space-between">
-        <p>Showing 1 to 10 of 97 results</p>
-        <Pagination count={10} color="primary" />
+      <Pagination
+          count={Math.floor(allResult.length / 10) + 1}
+          color="primary"
+          onChange={handleChange}
+        />
+
       </Stack>
     </Stack>
   );

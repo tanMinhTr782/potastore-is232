@@ -31,12 +31,14 @@ const SignIn = () => {
         // Login successful, you can handle the response accordingly
         const userData = await response.json();
         // console.log('Login successful. User data:', userData);
+        localStorage.setItem("username", userData.info.name);
         localStorage.setItem("role", userData.role);
         localStorage.setItem("accountId", userData.accountId);
         localStorage.setItem("accessToken", userData.accessToken);
         if (userData.role === "Customer") {
           window.location.href = "../";
-        } else window.location.href = "../shop";
+        } else if (userData.role === "DataScientist") window.location.href = "../data-scientist";
+        else window.location.href = "../shop";
       } else {
         // Login failed, handle the error response
         const errorData = await response.json();

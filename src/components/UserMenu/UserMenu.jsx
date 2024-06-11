@@ -1,11 +1,15 @@
-import * as React from "react";
+import React from "react";
+import {useNavigate} from 'react-router-dom'
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { AccountCircle, BlindsClosed, Key, Logout } from "@mui/icons-material";
 import styles from "./UserMenu.module.css";
 export default function UserMenu() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const accessToken = localStorage.getItem("accessToken");
+  const userName = localStorage.getItem("username");
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +29,7 @@ export default function UserMenu() {
     })
       .then((response) => {
         if (response.ok) {
+          localStorage.removeItem("username");
           localStorage.removeItem("accessToken");
           localStorage.removeItem("role");
           localStorage.removeItem("accountId");
@@ -49,7 +54,7 @@ export default function UserMenu() {
         onClick={handleClick}
         className={styles.username}
       >
-        Lorem ipsum
+       Lorem ipsum
       </Button>
       <Menu
         id="basic-menu"
@@ -60,11 +65,11 @@ export default function UserMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose} className={styles.menuItem}>
+        <MenuItem onClick={() => { navigate('/user/info')}} className={styles.menuItem}>
           {" "}
           <AccountCircle /> My Profile
         </MenuItem>
-        <MenuItem onClick={handleClose} className={styles.menuItem}>
+        <MenuItem onClick={() => { navigate('/user/orders')}}  className={styles.menuItem}>
           {" "}
           <BlindsClosed /> My Orders
         </MenuItem>

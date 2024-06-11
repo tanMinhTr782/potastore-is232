@@ -14,7 +14,7 @@ const Navbar = ({page}) => {
     const [openSearchByImage, setOpenSearchByImage] = useState(false);
     const isAuthen = false; 
     // triggers when file is selected with click
-
+    const accessToken = localStorage.getItem("accessToken");
     const navigate = useNavigate(); 
     const hideNavbar = window.location.pathname.startsWith("/shop");
     if (hideNavbar) {
@@ -60,7 +60,7 @@ const Navbar = ({page}) => {
                     <ShoppingCartOutlined className={styles.cart} />
                 </button>
                 {
-                    !isAuthen ? 
+                    accessToken ? 
                     (<UserMenu/>)
                     : (
                 <button className={styles.signinBtn}  onClick={() =>  { navigate('/SignIn') }}> 
