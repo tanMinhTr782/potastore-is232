@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import {Link} from 'react-router-dom';
 import UploadImageButton from '../UploadImageButton/UploadImageButton'
 import UserMenu from '../UserMenu/UserMenu'
-const Navbar = () => {
-    const [openSearchByImage, setOpenSearchByImage] = useState(false);
+const Navbar = ({page}) => {
+    const [openSearchByImage, setOpenSearchByImage] = useState(true);
     const isAuthen = false; 
     // triggers when file is selected with click
 
@@ -26,7 +26,10 @@ const Navbar = () => {
                 <div className= {styles.item}>
                     <Link to="/" className={styles.logo}> <img src='/logo.png' alt = "Potastore"/></Link>
                 </div>
-                <div className={styles.Search}>
+                {
+                    page != "SearchByImage" ? (
+                        <>
+                                        <div className={styles.Search}>
                     <div className= {styles.searchWrapper}>
                         <input className={styles.searchContainer} placeholder="Search">
                         </input>
@@ -40,6 +43,15 @@ const Navbar = () => {
                     </div>
                     {openSearchByImage && <UploadImageButton setOpen={setOpenSearchByImage}/>}
                 </div>
+                        </>
+                    )
+                    : 
+                    (
+                        <>
+                        </>
+                    )
+                }
+
             </div>
 
 

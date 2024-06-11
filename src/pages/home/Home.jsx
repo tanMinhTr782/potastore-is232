@@ -2,10 +2,57 @@ import styles from './Home.module.css'
 import CategoryCard from '../../components/categoryCard/CategoryCard'
 import Dropdown from '../../components/Dropdown/Dropdown'
 import ProductCard from '../../components/productCard/ProductCard';
+import { useState, useEffect } from 'react';
 
 const type = ["Fruit", "Vegetable", "All Type"];
 const availability = ["Per fruit", "Per pack", "All Availability"];
 const price = ["From low to high", "From high to low", "All Price"];
+// const [loginErr, setLoginErr] = useState("");
+
+// const onFinish = async (event) => {
+//   event.preventDefault();
+//   const data = new FormData(event.currentTarget);
+//   const accessToken = localStorage.accessToken;
+
+//   try {
+//     // Make a POST request to your login API endpoint
+//     const response = await fetch("http://localhost:3000/products", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${accessToken}`,
+//       },
+//       body: JSON.stringify({
+//         take: 10,
+//         skip: 1,
+//         categoryId: data.get("categoryId"),
+//       }),
+//     });
+//     if (data.get("take") === "" || data.get("skip") === "" || data.get("skip") === "")
+//       setLoginErr("unfilled");
+//     // Check if the request was successful (status code 2xx)
+//     else if (response.ok) {
+//       // Login successful, you can handle the response accordingly
+//       const userData = await response.json();
+//       // console.log('Login successful. User data:', userData);
+//       localStorage.setItem("role", userData.role);
+//       localStorage.setItem("accessToken", userData.accessToken);
+//       if(userData.role === 'Customer'){
+//         window.location.href = "../";
+//       }
+//       else window.location.href = "../shop";
+//     } else {
+//       // Login failed, handle the error response
+//       const errorData = await response.json();
+//       // console.error('Login failed:', errorData);
+//       setLoginErr("invalid");
+//     }
+//   } catch (error) {
+//     // Handle network or other errors
+//     // console.error('Error during login:', error);
+//     setLoginErr("invalid");
+//   }
+// };
 
 const products = [
   {
@@ -36,6 +83,13 @@ const products = [
 ];
 
 const Home = () => {
+
+  // const [products, setProducts] = useState([]);
+  // const url = 'http://localhost:3000/product';
+
+  const accessToken = localStorage.accessToken;
+
+
   return (
     <div className={styles.container}>
 
@@ -58,7 +112,7 @@ const Home = () => {
         <div className={styles.productCardList}>
           {products.map((product) => (
             <ProductCard {...product} />
-          ))}
+          ))} 
         </div>
       </div>
     </div>

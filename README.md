@@ -4,6 +4,17 @@ Potastore is a mini agricutural e-commerce web application, made most;y for demo
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Make sure you run the back-end (NestJS with SQL Server) here first on port 3000 [Link to repo](https://github.com/CallmeWait4U/potastore-is232_be).
+
+After that, you can run this project. The project should be on port 3001. 
+
+If you run the back-end for the first time, follow the order below. 
+1. `npm install` 
+2. `npm install @prisma/client`
+3. Change the port in `.env` file to the one that your MS SQL Server are running. 
+4. `npx prisma generate`
+5. `npx prisma db push`
+6. `npm run start:dev`
 ## Available Scripts
 
 In the project directory, you can run:

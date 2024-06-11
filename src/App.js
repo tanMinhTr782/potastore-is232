@@ -21,10 +21,10 @@ import { EditProduct } from "./shop/pages/EditProduct/EditProduct";
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import Register from './pages/Register/Register'
-import ResetPassword from './pages/ResetPassword/ResetPassword'
-import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
-import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
-import SearchByImageFound from './pages/SearchByImage/SearchByImageFound'
+// import ResetPassword from './pages/ResetPassword/ResetPassword'
+// import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
+// import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
+import SearchByImage from './pages/SearchByImage/SearchByImage'
 import Sidebar from './user/components/Sidebar/Sidebar';
 import BillingInfo from './user/pages/BillingInfo/BillingInfo';
 import UserInfo from './user/pages/UserInfo/UserInfo';
@@ -140,8 +140,8 @@ const router = createBrowserRouter([
     ]
   }, 
   {
-      path: "/SearchByImageFound",
-      element: <SearchByImageFound />,
+      path: "/SearchByImage",
+      element: <SearchByImage />,
   }, 
   {
     path: "/data-scientist",
