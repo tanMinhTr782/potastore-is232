@@ -1,5 +1,5 @@
 import "./AccountTable.css";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -48,17 +48,14 @@ for (let i = 1; i <= 10; i++) {
 }
 
 const AccountTable = () => {
-    const MAX_LENGTH = 40; 
-
     const navigate = useNavigate();
 
+    const [allAccount, setAllAccount] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [filter, setFilter] = useState("UserId");
     const [currentPage, setCurrentPage] = useState(1);
-  
-    const pageSize = 10;
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = currentPage * pageSize;
+    const [error, setError] = useState(false);
+
   
     const handleSearchChange = (event) => {
       setSearchText(event.target.value);
@@ -66,16 +63,57 @@ const AccountTable = () => {
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
-
-    // const filteredData = data.filter((item) => 
-    //     (item.userId.toString().includes(searchText.toLowerCase()) ||
-    //     item.role.toLowerCase().includes(searchText.toLowerCase()))
-    // ).slice(startIndex, endIndex);
+    const handleChange = (event, value) => {
+      setCurrentPage(value);
+    };
+    useEffect(() => {
+        const fetchAccounts = async () => {
+          const accessToken = localStorage.getItem("accessToken");
+          const skip=(currentPage-1)*10;
+          const response = await fetch(
+            `http://localhost:3001/account?take=${10}&skip=${skip}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          const accounts = await response.json();
+          setAllAccount(accounts.items);
+        };
+        fetchAccounts();
+      }, [currentPage]);
+    console.log(allAccount)
     const filteredData = (filter === "UserId"
-    ? data.filter((item) => item.userId.toString().includes(searchText))
-    : data.filter((item) => item.role.toLowerCase().includes(searchText.toLowerCase()))
-    ).slice(startIndex, endIndex);
-
+    ? allAccount.filter((item) => item.id.toLowerCase().includes(searchText.toLowerCase()))
+    : allAccount.filter((item) => item.role.toLowerCase().includes(searchText.toLowerCase()))
+    );
+    
+    const handleRemove = async (accountId) => {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+    
+          const response = await fetch("http://localhost:3001/account/delete", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              id: accountId,
+            }),
+          });
+          // Check if the request was successful (status code 2xx)
+          if (response.ok) {
+            // window.location.href = "../shop/accounts";
+          } else {
+            const errorData = await response.json();
+            setError(true);
+          }
+        } catch (error) {}
+      };
 
     return (
         <Stack className="AccountTableContainer" gap={2}>
@@ -117,8 +155,8 @@ const AccountTable = () => {
                         <TableCell style={{ fontWeight: "bold" }}>USER ID</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>USER NAME</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>ROLE</TableCell>
-                        <TableCell style={{ fontWeight: "bold" }}>REGISTER DATE</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>EMAIL</TableCell>
+                        <TableCell style={{ fontWeight: "bold" }}>PHONE</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>BILLING ADDRESS</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>ACTION</TableCell>
                     </TableRow>
@@ -129,28 +167,21 @@ const AccountTable = () => {
                         key={item.key}
                         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                        <TableCell>{item.userId}</TableCell>
-                        <TableCell>{item.userName}</TableCell>
+                        <TableCell>{item.id.slice(0, 8)}</TableCell>
+                        <TableCell>{item.role === "Customer" ? item.name : item.shopOwner.name}</TableCell>
                         <TableCell>{item.role}</TableCell>
-                        <TableCell>{item.registerDate}</TableCell>
-                        <TableCell>{item.email}</TableCell>
+                        <TableCell>{item.role === "Customer" ? item.email : item.shopOwner.email}</TableCell>
+                        <TableCell>{item.role === "Customer" ? item.customer.phoneNumber : item.shopOwner.phoneNumber}</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>
-                            {!item.billingAddress ? 'NONE' : 
-                                item.billingAddress.length > MAX_LENGTH 
-                                ? item.billingAddress.slice(0, MAX_LENGTH) + "..." 
-                                : item.billingAddress
-                            }
+                            {(item.role === "Customer" ? item.customer.address : item.shopOwner.address)?.slice(0, 40) + "..." }
                         </TableCell>
                         <TableCell>
                             <Stack direction="row" gap={0}>
-                                <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                                <IconButton onClick={()=> navigate(`/shop/accounts/${item.id}`)}>
                                     <RemoveRedEyeIcon sx={{color: "#000"}}/>
                                 </IconButton>
-                                <IconButton>
+                                <IconButton onClick={() => handleRemove(item.id)}>
                                     <DeleteIcon sx={{color: "#000"}}/>
-                                </IconButton>
-                                <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
-                                    <BorderColorOutlinedIcon sx={{color: "#000"}}/>
                                 </IconButton>
                             </Stack>
 
@@ -162,9 +193,12 @@ const AccountTable = () => {
                 </TableBody>
                 </Table>
             </TableContainer>
-            <Stack direction="row" justifyContent="space-between">
-                <p>Showing 1 to 10 of {filteredData.length} results</p>
-                <Pagination count={10} color="primary" />
+            <Stack direction="row" justifyContent="center">
+              <Pagination
+                count={Math.floor(allAccount.length / 10) + 1}
+                color="primary"
+                onChange={handleChange}
+              />
             </Stack>
         </Stack>
     );

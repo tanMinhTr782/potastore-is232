@@ -1,9 +1,22 @@
 # POTASTORE - Mini Agricultural E-commerce System
-Potastore is a mini agricutural e-commerce web application, made most;y for demonstration of "Search by Image" feature. The project is part of Intelligent System undergraduate course @ HCMUT. 
+
+Potastore is a mini agricutural e-commerce web application, made most;y for demonstration of "Search by Image" feature. The project is part of Intelligent System undergraduate course @ HCMUT.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Make sure you run the back-end (NestJS with SQL Server) here first on port 3000 [Link to repo](https://github.com/CallmeWait4U/potastore-is232_be).
+
+After that, you can run this project. The project should be on port 3001. 
+
+If you run the back-end for the first time, follow the order below. 
+1. `npm install` 
+2. `npm install @prisma/client`
+3. Change the port in `.env` file to the one that your MS SQL Server are running. 
+4. `npx prisma generate`
+5. `npx prisma db push`
+6. `npm run start:dev`
 ## Available Scripts
 
 In the project directory, you can run:
@@ -11,7 +24,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.

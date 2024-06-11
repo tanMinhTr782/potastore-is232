@@ -1,10 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProductDetail } from "../../components/ProductDetail/ProductDetail";
 import { ProductDescription } from "../../components/ProductDescription/ProductDescription";
 import { ProductReview } from "../../components/ProductReview/ProductReview";
 import Stack from "@mui/material/Stack";
 import SimilarCard from "../../components/SimilarCard/SimilarCard";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 
 import "./Product.css";
 const releventItem = [
@@ -69,9 +70,12 @@ const releventItem = [
       "https://lh3.googleusercontent.com/proxy/NDHBDBzsWRVNRpE3ZEAI4quGNIS8Yr6Rg_fXai7k4au57qfMD0uIXUV0xVieF6N3Gp94Vp2R2p_RpcuhaT_cwpmTzy1yN8H-jNED89dkwPL6_XDGOJ7mvnat4o13mQ",
   },
 ];
-const Product = ({ productId }) => {
+const Product = () => {
   const [showDescription, setShowDescription] = useState(true);
-
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState();
+  
   return (
     <div className="ProductPage">
       <ProductDetail productId={productId} />

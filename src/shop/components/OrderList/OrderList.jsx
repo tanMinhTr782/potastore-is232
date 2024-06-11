@@ -1,6 +1,6 @@
 import "./OrderList.css";
 import Tag from "../../../components/Tag/Tag";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -51,13 +51,13 @@ for (let i = 1; i <= 30; i++) {
 const OrderList = () => {
   const navigate = useNavigate();
 
+  const [allOrder, setAllOrder] = useState([]);
   const [filter, setFilter] = useState("OrderId");
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState(false);
 
   const pageSize = 10;
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = currentPage * pageSize;
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
@@ -66,14 +66,33 @@ const OrderList = () => {
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
-  // const filteredData = data.filter((item) => 
-  //   item.trackingNumber.toString().includes(searchText)
-  // ).slice(startIndex, endIndex);
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const skip=(currentPage-1)*10;
+      const response = await fetch(
+        `http://localhost:3001/order?take=10&skip=${skip}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const orders = await response.json();
+      setAllOrder(orders.items);
+    };
+    fetchOrders();
+  }, [currentPage]);
 
   const filteredData = (filter === "OrderId"
-  ? data.filter((item) => item.trackingNumber.toString().includes(searchText))
-  : data.filter((item) => item.status.toLowerCase().includes(searchText.toLowerCase()))
-  ).slice(startIndex, endIndex);
+  ? allOrder.filter((item) => item.id.toLowerCase().includes(searchText.toLowerCase()))
+  : allOrder.filter((item) => item.status.toLowerCase().includes(searchText.toLowerCase()))
+  );
 
 
   return (
@@ -132,50 +151,20 @@ const OrderList = () => {
                 key={item.key}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell>{item.trackingNumber}</TableCell>
-                <TableCell>
-                {(() => {
-                  let color = "";
-                  switch (item.status) {
-                    case "New order":
-                      color = "#1E40AF";
-                      break;
-                    case "Inproduction":
-                      color = "#92400E";
-                      break;
-                    case "Shipped":
-                      color = "#065F46";
-                      break;
-                    case "Cancelled":
-                      color = "red";
-                      break;
-                    case "Rejected":
-                      color = "orange";
-                      break;
-                    default:
-                      break;
-                  }
-                  return <Chip
+                <TableCell>{item.orderCode}</TableCell>
+                <TableCell> 
+                  <Chip
                     label={item.status}
-                    sx={{ bgcolor: {color} }}
                     variant="outlined"
                   />
-                })()}
-                  
                 </TableCell>
-                <TableCell>{item.quantity}</TableCell>
+                <TableCell>{item.numItems}</TableCell>
                 <TableCell>{item.customerName}</TableCell>
-                <TableCell align="center">{item.orderDate}</TableCell>
-                <TableCell>{item.total}</TableCell>
+                <TableCell align="center">{item.orderDate.slice(0,10)}</TableCell>
+                <TableCell>{item.total} VND</TableCell>
                 <TableCell>
                   <Stack direction="row" gap={1}>
-                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
-                      <RemoveRedEyeIcon sx={{color: "#000"}}/>
-                    </IconButton>
-                    <IconButton>
-                      <DeleteIcon sx={{color: "#000"}}/>
-                    </IconButton>
-                    <IconButton onClick={()=> navigate(`/shop/accounts/${item.userId}`)}>
+                    <IconButton onClick={()=> navigate(`/shop/orders/${item.id}`)}>
                       <BorderColorOutlinedIcon sx={{color: "#000"}}/>
                     </IconButton>
                   </Stack>
@@ -185,9 +174,12 @@ const OrderList = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Stack direction="row" justifyContent="space-between">
-        <p>Showing 1 to 10 of {filteredData.length} results</p>
-        <Pagination count={10} color="primary" />
+      <Stack direction="row" justifyContent="center">
+        <Pagination
+          count={Math.floor(allOrder.length / 10) + 1}
+          color="primary"
+          onChange={handleChange}
+        />
       </Stack>
     </Stack>
   );

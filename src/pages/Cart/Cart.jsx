@@ -20,31 +20,36 @@ import "./Cart.css";
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const productList = [
-  {
-    id: '1',
-    name: "Mocchau Strawberry",
-    imgUrl: "https://cdn11.bigcommerce.com/s-i7i23daso6/images/stencil/1280x1280/products/10739/15772/Strawberry_Florence_Late_0005016__40227.1623343614.jpg?c=1",
-    price: 499,
-    quantity: 2,
-  },
-  {
-    id: '2',
-    name: "Mocchau Strawberry",
-    imgUrl: "https://cdn11.bigcommerce.com/s-i7i23daso6/images/stencil/1280x1280/products/10739/15772/Strawberry_Florence_Late_0005016__40227.1623343614.jpg?c=1",
-    price: 499,
-    quantity: 2,
-  },
-]
+// const productList = [
+//   {
+//     id: '1',
+//     name: "Mocchau Strawberry",
+//     imgUrl: "https://cdn11.bigcommerce.com/s-i7i23daso6/images/stencil/1280x1280/products/10739/15772/Strawberry_Florence_Late_0005016__40227.1623343614.jpg?c=1",
+//     price: 499,
+//     quantity: 2,
+//   },
+//   {
+//     id: '2',
+//     name: "Mocchau Strawberry",
+//     imgUrl: "https://cdn11.bigcommerce.com/s-i7i23daso6/images/stencil/1280x1280/products/10739/15772/Strawberry_Florence_Late_0005016__40227.1623343614.jpg?c=1",
+//     price: 499,
+//     quantity: 2,
+//   },
+// ]
 
 const Cart = () => {
   const navigate = useNavigate();
+  if(!localStorage.getItem('cart')){
+    localStorage.setItem('cart', '[]');
+  }
+  const productList = JSON.parse(localStorage.getItem('cart'));
 
   const [products, setProducts] = useState(productList);
 
+
   const subTotal = products.reduce((total, product) => total + product.quantity * product.price, 0);
   const totalQuantity = products.reduce((total, product) => total + product.quantity, 0);
-  const shippingfee = 25;
+  const shippingfee = 25000;
 
   const totalPrice = {
     total: subTotal + shippingfee, 
@@ -74,6 +79,12 @@ const Cart = () => {
       return product;
     });
     setProducts(updatedProducts);
+    if(localStorage.getItem('cart')){
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      const index = cart.findIndex(ele => ele.id === productId);
+      cart[index].quantity++;
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   };
 
   const decreaseQuantity = (productId) => {
@@ -84,11 +95,27 @@ const Cart = () => {
       return product;
     });
     setProducts(updatedProducts);
+    if(localStorage.getItem('cart')){
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      const index = cart.findIndex(ele => ele.id === productId);
+      if(cart[index].quantity === 1) {
+        cart = cart.filter(item => item.id !== productId)
+      }
+      else{
+        cart[index].quantity--;
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   };
 
   const deleteProduct = (productId) => {
     const updatedProducts = products.filter((product) => product.id !== productId);
     setProducts(updatedProducts);
+    if(localStorage.getItem('cart')){
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      cart = cart.filter(item => item.id !== productId)
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   };
 
   return (
@@ -124,11 +151,11 @@ const Cart = () => {
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <Stack direction="row" alignItems="center">
-                    <img src={item.imgUrl} className="productImg"></img>
+                    <img src={item.image} className="productImg"></img>
                     {item.name}
                   </Stack>
                 </TableCell>
-                <TableCell align="center">${item.quantity * item.price}</TableCell>
+                <TableCell align="center">{item.quantity * item.price} VND</TableCell>
                 <TableCell align="center">
                   <IconButton color="primary" onClick={() => decreaseQuantity(item.id)}>
                     <RemoveIcon />
@@ -146,7 +173,7 @@ const Cart = () => {
                     <AddIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell align="center">${item.price}</TableCell>
+                <TableCell align="center">{item.price} VND</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -157,15 +184,15 @@ const Cart = () => {
         <Stack gap={1} sx={{width: '30%'}} >
           <Stack direction="row" justifyContent="space-between">
             <p>Subtotal</p>
-            <p>${totalPrice.subTotal}</p>
+            <p>{totalPrice.subTotal} VND</p>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <p>Shipping fee</p>
-            <p>${totalPrice.shippingfee}</p>
+            <p>{totalPrice.shippingfee} VND</p>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <p style={{ fontWeight: "bold", fontSize: "20px" }}>total</p>
-            <p style={{ fontWeight: "bold", fontSize: "20px" }}>${totalPrice.total}</p>
+            <p style={{ fontWeight: "bold", fontSize: "20px" }}>{totalPrice.total} VND</p>
           </Stack>
           <Button
             color="primary"

@@ -3,6 +3,13 @@ import { useParams, NavLink, useNavigate } from "react-router-dom";
 
 import {
   TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableHead,
+  Paper,
   Stack,
   Button,
   Modal,
@@ -17,23 +24,24 @@ import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import "./EditProduct.css";
+import "./EditOrder.css";
 import ShopNavbar from "../../components/ShopNavbar/ShopNavbar";
 
-export const EditProduct = () => {
-  const { productId } = useParams();
+export const EditOrder = () => {
+  const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState();
+  const [order, setOrder] = useState();
   const [error, setError] = useState(false);
+  const [file, setFile] = useState();
 
   const hiddenFileInput = useRef(null);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchOrder = async () => {
       const accessToken = localStorage.getItem("accessToken");
       const response = await fetch(
-        `http://localhost:3001/product/detail?id=${productId}`,
+        `http://localhost:3001/order/detail?id=${orderId}`,
         {
           method: "GET",
           headers: {
@@ -42,13 +50,12 @@ export const EditProduct = () => {
           },
         }
       );
-      const product = await response.json();
-      setProduct(product);
+      const order = await response.json();
+      setOrder(order);
     };
-    fetchProduct();
+    fetchOrder();
   }, []);
-
-  const [file, setFile] = useState();
+  console.log(order);
 
   function handleChange(e) {
     console.log(e.target.files);
@@ -60,164 +67,165 @@ export const EditProduct = () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
 
-      const response = await fetch("http://localhost:3001/product/update", {
+      const response = await fetch("http://localhost:3001/order/update/status", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          id: data.get("id"),
-          name: data.get("name"),
-          code: data.get("code"),
-          description: data.get("description"),
-          price: parseInt(data.get("price")),
-          quantity: parseInt(data.get("quantity")),
-          unit: data.get("unit"),
+          id: order.id,
+          status: data.get("status"),
         }),
       });
+      console.log(JSON.stringify({
+        id: order.id,
+        status: data.get("status"),
+      }));
       // Check if the request was successful (status code 2xx)
       if (response.ok) {
-        window.location.href = "../products";
+        window.location.href = "../orders";
       } else {
         const errorData = await response.json();
         setError(true);
       }
     } catch (error) {}
   };
-  const handleUploadButton = () => {
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.click();
-    }
-  };
 
   return (
     <Stack direction="row">
       <ShopNavbar />
-      <Stack className="EditProductContainer" gap={4}>
-        <NavLink to="/shop/products" className="backLink">
+      <Stack className="EditOrderContainer" gap={4}>
+        <NavLink to="/shop/orders" className="backLink">
           <ArrowBackIosIcon fontSize="small" />
           Back
         </NavLink>
         <form onSubmit={handleSubmit}>
           <Stack>
             <h1 style={{ textDecoration: "underline", marginBottom: "20px" }}>
-              Product Details
+              Order Details
             </h1>
-            {product ? (
+            {order ? (
               <Stack gap={4}>
                 <Stack direction="row" gap={15}>
                   <TextField
-                    label="Product Name"
-                    name="name"
-                    id="name"
-                    required
-                    variant="outlined"
-                    sx={{ width: "35%" }}
-                    defaultValue={product.name}
-                  />
-                  <TextField
-                    label="Product Id"
-                    name="id"
-                    id="id"
-                    required
+                    label="Customer Name"
                     variant="outlined"
                     sx={{ width: "35%" }}
                     InputProps={{
                       readOnly: true,
                     }}
-                    value={product.id}
+                    value={order.customer.name}
+                  />
+                  <TextField
+                    label="Phone Number"
+                    variant="outlined"
+                    sx={{ width: "35%" }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={order.customer.phoneNumber}
                   />
                 </Stack>
                 <Stack direction="row" gap={10}>
                   <TextField
-                    label="Product Code"
-                    name="code"
-                    id="code"
+                    label="Order Number"
                     required
                     variant="outlined"
                     sx={{ width: "20%" }}
                     InputProps={{
                       readOnly: true,
                     }}
-                    defaultValue={product.code}
+                    value={order.orderCode}
                   />
+                  <Select
+                    label="Status"  
+                    id="status"  
+                    name="status"  
+                    sx={{ width: "20%" }}
+                    defaultValue={order.status}
+                  >
+                    <MenuItem value={"NOTDELIVER"}>NOTDELIVER</MenuItem>
+                    <MenuItem value={"DELIVERING"}>DELIVERING</MenuItem>
+                    <MenuItem value={"DONE"}>DONE</MenuItem>
+                    <MenuItem value={"CANCEL"}>CANCEL</MenuItem>
+                  </Select>
                   <TextField
-                    type="number"
-                    label="Quantity"
-                    name="quantity"
-                    id="quantity"
+                    label="Order Date"
                     required
                     variant="outlined"
                     sx={{ width: "20%" }}
-                    defaultValue={product.quantity}
-                  />
-                </Stack>
-                <Stack direction="row" gap={10}>
-                  <TextField
-                    label="Product Type"
-                    name="category"
-                    id="category"
-                    required
-                    variant="outlined"
-                    sx={{ width: "20%" }}
-                    defaultValue={product.category.name}
-                  />
-                  <TextField
-                    label="Product Unit"
-                    name="unit"
-                    id="unit"
-                    required
-                    variant="outlined"
-                    sx={{ width: "20%" }}
-                    defaultValue={product.unit}
-                  />
-                  <TextField
-                    label="Price per Unit"
-                    name="price"
-                    id="price"
-                    required
-                    variant="outlined"
-                    sx={{ width: "20%" }}
-                    defaultValue={product.price}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={order.orderDate.slice(0,10)}
                   />
                 </Stack>
                 <TextField
-                  label="Description"
-                  name="description"
-                  id="description"
+                    label="Delivery Address"
+                    required
+                    variant="outlined"
+                    sx={{ width: "70%" }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={order.customer.address}
+                  />
+                <Stack direction="row" gap={10}>
+                  <TextField
+                    label="Name on Card"
+                    required
+                    variant="outlined"
+                    sx={{ width: "35%" }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value="LOREM IPSUM"
+                  />
+                  <TextField
+                    label="Credit Card Number"
+                    required
+                    variant="outlined"
+                    sx={{ width: "35%" }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value="111111111111"
+                  />
+                </Stack>
+                <TextField
+                  label="Total"
                   required
                   variant="outlined"
                   sx={{ width: "60%" }}
-                  defaultValue={product.description}
-                  multiline
-                  rows={4}
+                  value={order.total}
                 />
                 <Stack gap={1}>
-                  <div style={{ fontWeight: "500" }}>Product Image</div>
-                  <img
-                    src={file ? file : product.image}
-                    className="productImagePreview"
-                  />
-                  <Button
-                    onClick={handleUploadButton}
-                    variant="outlined"
-                    sx={{ width: "fit-content" }}
-                  >
-                    <input
-                      ref={hiddenFileInput}
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={handleChange}
-                    />
-                    <Stack direction="row" alignItems="center" gap={1}>
-                      <BackupOutlinedIcon />
-                      Upload Image
-                    </Stack>
-                  </Button>
+                  <div style={{ fontWeight: "500" }}>Product List</div>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{ fontWeight: "bold" }}>PRODUCT NAME</TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>QUANTITY</TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>PRICE PER UNIT</TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>TOTAL PRICE</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {order.productOrders.map((item) => (
+                        <TableRow
+                            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                        >
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell>{item.quantity}</TableCell>
+                            <TableCell>{item.price} VND</TableCell>
+                            <TableCell>{item.total} VND</TableCell>
+                        </TableRow>                            
+                        ))}
+                    </TableBody>
+                    </Table>
+                </TableContainer>
                 </Stack>
               </Stack>
             ) : (
@@ -232,7 +240,7 @@ export const EditProduct = () => {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={() => navigate("/shop/products")}
+                onClick={() => navigate("/shop/orders")}
                 sx={{ width: "10%" }}
               >
                 Cancel
@@ -241,6 +249,7 @@ export const EditProduct = () => {
                 color="error"
                 variant="contained"
                 type="submit"
+                value="submit"
                 sx={{ width: "10%" }}
               >
                 Update

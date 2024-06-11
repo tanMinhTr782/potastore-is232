@@ -5,6 +5,8 @@ import {
   Outlet,
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect} from "react";
+import { useLocation} from "react-router-dom";
 
 
 import Home from './pages/home/Home';
@@ -18,13 +20,14 @@ import ProductManagement from "./shop/pages/ProductManagement/ProductManagement"
 import AccountManagement from "./shop/pages/AccountManagement/AccountManagement";
 import { EditAccount } from "./shop/pages/EditAccount/EditAccount";
 import { EditProduct } from "./shop/pages/EditProduct/EditProduct";
+import { EditOrder } from "./shop/pages/EditOrder/EditOrder";
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import Register from './pages/Register/Register'
-import ResetPassword from './pages/ResetPassword/ResetPassword'
-import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
-import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
-import SearchByImageFound from './pages/SearchByImage/SearchByImageFound'
+// import ResetPassword from './pages/ResetPassword/ResetPassword'
+// import ResetPassword1 from './pages/ResetPassword/ResetPassword1'
+// import ResetPassword2 from './pages/ResetPassword/ResetPassword2'
+import SearchByImage from './pages/SearchByImage/SearchByImage'
 import Sidebar from './user/components/Sidebar/Sidebar';
 import BillingInfo from './user/pages/BillingInfo/BillingInfo';
 import UserInfo from './user/pages/UserInfo/UserInfo';
@@ -78,7 +81,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       {
-        path: "/products",
+        path: "/products/:productId",
         element: <Product />,
       },
       {
@@ -112,6 +115,10 @@ const router = createBrowserRouter([
       {
         path: "/shop/products/:productId",
         element: <EditProduct/>, 
+      },
+      {
+        path: "/shop/orders/:orderId",
+        element: <EditOrder/>, 
       }
     ]
   },
@@ -140,8 +147,8 @@ const router = createBrowserRouter([
     ]
   }, 
   {
-      path: "/SearchByImageFound",
-      element: <SearchByImageFound />,
+      path: "/SearchByImage",
+      element: <SearchByImage />,
   }, 
   {
     path: "/data-scientist",
@@ -170,6 +177,7 @@ const router = createBrowserRouter([
   }
 ]);
 function App() {
+
 
   return <div>
       <ThemeProvider theme={theme}>

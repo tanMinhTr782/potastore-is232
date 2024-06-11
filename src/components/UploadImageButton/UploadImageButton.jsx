@@ -1,15 +1,13 @@
 import { useState } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   AttachFile, 
   Close
 } from '@mui/icons-material';
 import styles from './UploadImageButton.module.css'
-function handleFiles(files) {
-  alert(files[0].name);
-  console.log(files); 
-}
 const UploadImageButton = ({setOpen}) => {
   const [dragActive, setDragActive] = useState(false);
+  const navigate = useNavigate();
   const handleChange = function (e) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
@@ -18,6 +16,16 @@ const UploadImageButton = ({setOpen}) => {
     }
     //console.log(event)
   };
+  function handleFiles(files) {
+    navigate(
+      '/SearchByImage',
+      {
+        state: {
+          image: files[0], 
+        }
+      }
+    )  
+  }
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
