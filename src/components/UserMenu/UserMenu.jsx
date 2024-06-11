@@ -16,7 +16,7 @@ export default function UserMenu() {
   const handleLogout = () => {
     const accessToken = localStorage.getItem("accessToken");
 
-    fetch("http://localhost:3000/sign-out", {
+    fetch("http://localhost:3001/sign-out", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,6 +27,8 @@ export default function UserMenu() {
         if (response.ok) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("role");
+          localStorage.removeItem("accountId");
+          localStorage.removeItem("cart");
           window.location.href = "../SignIn";
         } else {
           console.error("Logout failed:", response.status);

@@ -5,6 +5,8 @@ import {
   Outlet,
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect} from "react";
+import { useLocation} from "react-router-dom";
 
 
 import Home from './pages/home/Home';
@@ -18,6 +20,7 @@ import ProductManagement from "./shop/pages/ProductManagement/ProductManagement"
 import AccountManagement from "./shop/pages/AccountManagement/AccountManagement";
 import { EditAccount } from "./shop/pages/EditAccount/EditAccount";
 import { EditProduct } from "./shop/pages/EditProduct/EditProduct";
+import { EditOrder } from "./shop/pages/EditOrder/EditOrder";
 import AuthenSide from './components/AuthenSide/AuthenSide'
 import SignIn from './pages/SignIn/SignIn'
 import Register from './pages/Register/Register'
@@ -78,7 +81,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       {
-        path: "/products",
+        path: "/products/:productId",
         element: <Product />,
       },
       {
@@ -112,6 +115,10 @@ const router = createBrowserRouter([
       {
         path: "/shop/products/:productId",
         element: <EditProduct/>, 
+      },
+      {
+        path: "/shop/orders/:orderId",
+        element: <EditOrder/>, 
       }
     ]
   },
@@ -170,6 +177,7 @@ const router = createBrowserRouter([
   }
 ]);
 function App() {
+
 
   return <div>
       <ThemeProvider theme={theme}>

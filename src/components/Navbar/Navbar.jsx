@@ -56,9 +56,8 @@ const Navbar = ({page}) => {
 
 
             <div className={styles.right}>
-                <button className={styles.cartBtn}>
+                <button className={styles.cartBtn} onClick={() =>  { navigate('/cart') }}>
                     <ShoppingCartOutlined className={styles.cart} />
-                    <span className={styles.cartCount}>0</span>
                 </button>
                 {
                     !isAuthen ? 

@@ -14,7 +14,7 @@ const SignIn = () => {
 
     try {
       // Make a POST request to your login API endpoint
-      const response = await fetch("http://localhost:3000/sign-in", {
+      const response = await fetch("http://localhost:3001/sign-in", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,11 +32,11 @@ const SignIn = () => {
         const userData = await response.json();
         // console.log('Login successful. User data:', userData);
         localStorage.setItem("role", userData.role);
+        localStorage.setItem("accountId", userData.accountId);
         localStorage.setItem("accessToken", userData.accessToken);
-        if(userData.role === 'Customer'){
+        if (userData.role === "Customer") {
           window.location.href = "../";
-        }
-        else window.location.href = "../shop";
+        } else window.location.href = "../shop";
       } else {
         // Login failed, handle the error response
         const errorData = await response.json();

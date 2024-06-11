@@ -1,6 +1,6 @@
 import "./ProductDetail.css";
 import Tag from "../Tag/Tag";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -19,7 +19,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const ItemDetail = {
   productId: "1",
-  productName: "Mocchau Strawberry",
+  name: "Mocchau Strawberry",
   available: true,
   unit: "pack",
   weight: "400g",
@@ -31,7 +31,7 @@ const ItemDetail = {
   category: "Fruits",
   likes: 109,
   expire: "Printed on boxes",
-  reservation: "Keep cool on fridge",
+  reservation:"Printed on boxes",
   image: [
     "https://cdn11.bigcommerce.com/s-i7i23daso6/images/stencil/1280x1280/products/10739/15772/Strawberry_Florence_Late_0005016__40227.1623343614.jpg?c=1",
     "https://trungtamphantichchungnhanhanoi.gov.vn/wp-content/uploads/2023/03/dau-tay-moc-chau-3.jpeg",
@@ -44,9 +44,30 @@ const rating = {
   reviews: 67,
   star: 4,
 };
-export const ProductDetail = ({ productId }) => {
+export const ProductDetail = ({productId}) => {
   const [imageIdx, setImageIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await fetch(
+        `http://localhost:3001/product/detail?id=${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const product = await response.json();
+      setProduct(product);
+    };
+    fetchProduct();
+  }, []);
+  console.log(product)
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -57,10 +78,36 @@ export const ProductDetail = ({ productId }) => {
       setQuantity(quantity - 1);
     }
   };
-  const handleClick = () => {
-    console.info("You saved products");
-  };
-
+  const handleAddToCart = (quantity) => {
+    if(quantity > 0){
+      if(localStorage.getItem('cart')){
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        const index = cart.findIndex(ele => ele.id === product.id);
+        if(index !== -1){
+          cart[index].quantity = quantity;
+        }
+        else{
+          const cartItem = {
+            id: product.id,
+            name: product.name,
+            image: product.image, 
+            price: product.price,
+            quantity: quantity,
+          }
+          cart.push(cartItem);
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+    }
+    else {
+      if(localStorage.getItem('cart')){
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        cart = cart.filter(item => item.id !== productId)
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+    }
+  }
+  
   return (
     <Stack sx={{ paddingBottom: "60px" }}>
       <Stack
@@ -71,9 +118,9 @@ export const ProductDetail = ({ productId }) => {
       >
         <div style={{ fontWeight: "500" }}>Postastore</div>
         <KeyboardArrowRightIcon sx={{ color: "#BDBDBD" }} />
-        <div>{ItemDetail.category}</div>
+        <div>{product?.type}</div>
         <KeyboardArrowRightIcon sx={{ color: "#BDBDBD" }} />
-        <div>{ItemDetail.productName}</div>
+        <div>{product?.name}</div>
       </Stack>
       <Grid
         container
@@ -82,45 +129,23 @@ export const ProductDetail = ({ productId }) => {
         sx={{ padding: "20px 60px" }}
       >
         <Grid className="ProductImage" item xs={6}>
-          <Stack alignItems="center">
             <img
               className="ProductImage--MainImage"
-              src={ItemDetail.image[imageIdx]}
+              src={product?.image}
               alt="ProductImage"
             />
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              sx={{ width: "70%" }}
-              gap={1}
-            >
-              {ItemDetail.image.map((item, index) => {
-                return (
-                  <img
-                    className={`ProductImage--SmallImage${
-                      index === imageIdx ? "__selected" : ""
-                    }`}
-                    src={item}
-                    alt="ProductImage"
-                    onClick={() => setImageIdx(index)}
-                  />
-                );
-              })}
-            </Stack>
-          </Stack>
         </Grid>
         <Grid className="ProductInfo" item xs={6} direction="column">
           <Stack direction="column" gap={1}>
             <Stack justifyContent="space-between" direction="row">
               <span style={{ fontSize: "25px", fontWeight: "bold" }}>
-                {ItemDetail.productName}
+                {product?.name}
               </span>
               <Stack direction="row" spacing={1}>
                 <Tag
                   bgColor="#FFF0F0"
                   color="#D46F77"
                   icon={<FavoriteBorderIcon fontSize="small" />}
-                  text={ItemDetail.likes}
                 />
                 <Tag icon={<TurnedInNotIcon fontSize="small" />} />
                 <Tag icon={<ShareIcon fontSize="small" />} />
@@ -133,15 +158,8 @@ export const ProductDetail = ({ productId }) => {
             >
               Availability:
               <div style={{ fontWeight: "bold", color: "#23A6F0" }}>
-                {ItemDetail.available ? "In stock" : "Out Stock"}
+                {product?.quantity > 0 ? "In stock" : "Out Stock"}
               </div>
-            </Stack>
-            <Stack spacing={1} direction="row">
-              <Rating value={rating.star} precision={0.5} readOnly />
-              <Tag
-                icon={<MessageOutlinedIcon fontSize="small" />}
-                text={`${rating.reviews} Reviews`}
-              />
             </Stack>
           </Stack>
           <Divider flexItem style={{ padding: "10px 0" }} />
@@ -160,18 +178,8 @@ export const ProductDetail = ({ productId }) => {
                   color: "#3a4980",
                 }}
               >
-                $ {ItemDetail.salePrice}/pack
-              </div>
-              <div
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "18px",
-                  color: "#737373",
-                  textDecoration: "line-through",
-                }}
-              >
-                $ {ItemDetail.price}
-              </div>
+                {product?.price} VND/pack
+              </div>  
             </Stack>
             <Stack>
               <div
@@ -181,7 +189,7 @@ export const ProductDetail = ({ productId }) => {
                   fontSize: "14px",
                 }}
               >
-                Pack size: 1 x {ItemDetail.weight}
+                Unit: 1 x {product?.unit}
               </div>
               <div
                 style={{
@@ -190,7 +198,7 @@ export const ProductDetail = ({ productId }) => {
                   fontSize: "14px",
                 }}
               >
-                Full case Quantity: {ItemDetail.maxQuantity}
+                Quantity: {product?.quantity}
               </div>
             </Stack>
           </Stack>
@@ -199,12 +207,12 @@ export const ProductDetail = ({ productId }) => {
             <div
               style={{ fontWeight: "bold", color: "#737373", fontSize: "14px" }}
             >
-              Expiry date: {ItemDetail.expire}
+              Expiry date: Printed on boxes
             </div>
             <div
               style={{ fontWeight: "bold", color: "#737373", fontSize: "14px" }}
             >
-              Reservation: {ItemDetail.reservation}
+              Reservation: "Keep cool on fridge",
             </div>
           </Stack>
           <Divider flexItem style={{ padding: "10px 0" }} />
@@ -215,7 +223,7 @@ export const ProductDetail = ({ productId }) => {
               color: "#737373",
             }}
           >
-            {ItemDetail.description}
+            {product?.description}
           </div>
           <Divider flexItem style={{ padding: "10px 0" }} />
           <Stack direction="row" gap={3} style={{ paddingTop: "10px" }}>
@@ -238,6 +246,7 @@ export const ProductDetail = ({ productId }) => {
                 borderRadius: "50px",
               }}
               className="AddCartButton"
+              onClick={() => handleAddToCart(quantity)}
             >
               Add To Cart
             </Button>
