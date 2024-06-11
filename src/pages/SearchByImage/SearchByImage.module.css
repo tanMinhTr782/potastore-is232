@@ -22,7 +22,6 @@
 .centerRightContainer { 
     margin-left: 101px; 
     margin-right: 99px; 
-
 }
 .heading {
     display: flex; 
@@ -114,4 +113,9 @@
 }
 .inputFileUpload {
     display: none;
+}
+.loader { 
+    position: relative;
+    margin-left: 200px;
+    margin-top: 200px;  
 }

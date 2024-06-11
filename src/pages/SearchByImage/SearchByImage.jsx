@@ -1,8 +1,12 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect } from 'react'
 import styles from './SearchByImage.module.css'
 import {useLocation, useNavigation, Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar';
-
+import BeatLoader from "react-spinners/BeatLoader";
+const override = {
+  display: "block",
+  margin: "0 auto",
+};
 const ResultCard = ({productName, img}) => {
   return (
     <div  className = {styles.scanResult}>
@@ -21,6 +25,7 @@ const SearchByImage = () => {
   const [preview, setPreview] = useState("./img/search_img_bg.jpg");
 
     const getResult = (image) => { 
+    setLoading(true); 
     const apiUrl = 'http://localhost:3001/image'; 
     const formData=new FormData();
     formData.append('images', image);
@@ -38,11 +43,13 @@ const SearchByImage = () => {
     .then(file => {
       setResult(file.items);
       setNumberResult(file.items.length); 
+      setLoading(false); 
     })
     .catch(error => {
       console.error('Error:', error);
     });
     } 
+    
     function handleChange(e) {
       e.preventDefault();
       if (e.target.files && e.target.files[0]) {
@@ -95,14 +102,36 @@ const SearchByImage = () => {
       </div>
       <div className={styles.right}>
         <div className={styles.centerRightContainer}>
-          <div className={styles.heading}>
-            <div className={styles.title}>We found {numberResult} results with your image </div>
+          {
+            loading ? (
+              <div className = {styles.loader}>
+                      <BeatLoader
+        color="black"
+        loading={loading}
+        cssOverride={override}
+        size={30}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+              </div>
+            )
+            : (
+              <>
+<div className={styles.heading}>
+            <div className={styles.title}>We found 
+              {numberResult ? (<span> {numberResult} results </span>) : (<span>0 result </span>)}  
+              with your image 
+              </div>
           </div>
           {numberResult > 0 ? (<div className= {styles.resultContainer}>
             {result.map(res => 
                 <ResultCard productName = {res.name} img = {res.image}/>
             )}
           </div>) : (<div className = {styles.subtitle}> Try uploading more images</div>)}
+              </>
+            )
+          }
+
 
 
         </div>
