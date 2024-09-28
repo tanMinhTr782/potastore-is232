@@ -2,6 +2,8 @@
 
 Potastore is a mini agricutural e-commerce web application, made most;y for demonstration of "Search by Image" feature. The project is part of Intelligent System undergraduate course @ HCMUT.
 
+Link demo: https://www.youtube.com/watch?v=nvlvicsiv9M
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
